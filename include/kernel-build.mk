@@ -127,6 +127,7 @@ define BuildKernel
 
   $(STAMP_CONFIGURED): $(STAMP_PREPARED) $(LINUX_KCONFIG_LIST) $(TOPDIR)/.config FORCE
 	$(Kernel/Configure)
+	-mkdir -p $(KERNEL_BUILD_DIR)/image
 	touch $$@
 
   $(LINUX_DIR)/.modules: export STAGING_PREFIX=$$(STAGING_DIR_HOST)

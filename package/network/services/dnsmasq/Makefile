@@ -132,7 +132,7 @@ TARGET_CFLAGS += -flto
 TARGET_LDFLAGS += -flto=jobserver
 
 COPTS = -DHAVE_UBUS -DHAVE_POLL_H \
-	$(if $(CONFIG_IPV6),,-DNO_IPV6)
+	$(if $(CONFIG_IPV6),,-DNO_IPV6) -DNO_INOTIFY
 
 ifeq ($(BUILD_VARIANT),nodhcpv6)
 	COPTS += -DNO_DHCP6
