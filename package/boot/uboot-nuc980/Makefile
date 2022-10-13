@@ -44,7 +44,8 @@ define Build/InstallDev
 	$(foreach img,$(UBOOT_IMAGE), \
 		$(CP) $(PKG_BUILD_DIR)/$(img) $(BIN_DIR)/openwrt-${BOARD}-$(BUILD_VARIANT)-$(img); \
 	)
-ifneq (,$(wildcard $(PKG_BUILD_DIR)/spl/u-boot-spl.bin))
+#ifneq (,$(wildcard $(PKG_BUILD_DIR)/spl/u-boot-spl.bin))
+ifneq ($(1), chili)
 	$(CP) $(PKG_BUILD_DIR)/spl/u-boot-spl.bin $(BIN_DIR)/openwrt-$(BOARD)-$(BUILD_VARIANT)-u-boot-spl.bin
 endif
 endef
