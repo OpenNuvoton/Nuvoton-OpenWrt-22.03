@@ -1,0 +1,41 @@
+{
+    "image":
+    [
+        {  
+          "offset": "0x000000",
+          "file": "conv/header.bin",
+          "type": 1
+        },
+        {
+          "offset": "0xC0000",
+          "file": "bl2.dtb",
+          "type": 0
+        },
+        {
+          "offset": "0xE0000",
+          "file": "bl2.bin",
+          "type": 0
+        },
+        {
+          "offset": "0x100000",
+          "file": "fip.bin-spinand",
+          "type": 1
+        },
+        {
+          "offset": "0x300000",
+          "file": "uboot-env.ubi-spinand",
+          "type": 1
+        },
+        {
+          "offset": "0x3C0000",
+          "file": "Image.dtb",
+          "type": 1
+        },
+        {
+          "offset": "0x400000",
+          "file": "firmware.bin",
+          "type": 1
+        }
+    ]
+}
+
