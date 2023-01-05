@@ -7,13 +7,11 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=optee-ma35d1
-PKG_VERSION:=3.9.0
-PKG_RELEASE:=$(AUTORELEASE)
-
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_optee_os-v3.9.0.git
 PKG_SOURCE_DATE:=2022-11-28
 PKG_SOURCE_VERSION:=49e947a8e7dc8304d4d6deb20f00d7f4caabab50
+PKG_MIRROR_HASH:=c6405b3ff206e117b161316cf772ee854e49b71ec665e6fe2df736efb7eabc7d
 
 include $(INCLUDE_DIR)/optee.mk
 include $(INCLUDE_DIR)/package.mk

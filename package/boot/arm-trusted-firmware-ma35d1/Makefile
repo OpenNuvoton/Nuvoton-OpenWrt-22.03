@@ -7,13 +7,11 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=arm-trusted-firmware-ma35d1
-PKG_VERSION:=2.3
-PKG_RELEASE:=$(AUTORELEASE)
-
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/OpenNuvoton/MA35D1_arm-trusted-firmware-v2.3.git
 PKG_SOURCE_DATE:=2022-12-01
 PKG_SOURCE_VERSION:=4da5e002e6f5c450da61261cac5a7d72ffd5f2fc
+PKG_MIRROR_HASH:=11ace46d05907eecde47535eb1e7630f5f3be8f0e5fca65a1f3d47fbcd299522
 
 PKG_MAINTAINER:=Chih-Chiang Chang <ccchang12@nuvoton.com>
 

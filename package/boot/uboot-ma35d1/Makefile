@@ -9,13 +9,11 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=uboot-ma35d1
-PKG_VERSION:=2020.07
-PKG_RELEASE:=1
-
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_u-boot-v2020.07.git
 PKG_SOURCE_DATE:=2022-12-06
 PKG_SOURCE_VERSION:=4b6aaab6d7fc0807c943a57e093ca1304a7f0254
+PKG_MIRROR_HASH:=6640cd5296b7939bd6747ea1f42c420618aeb3e4f48735cc1ceb7a46b0ec007b
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
