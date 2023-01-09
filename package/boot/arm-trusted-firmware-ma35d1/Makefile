@@ -28,11 +28,19 @@ define Trusted-Firmware-A/Default
   DDR_BLOB:=
 endef
 
-define Trusted-Firmware-A/generic
-  NAME:=MA35D1 board
+define Trusted-Firmware-A/cpu800
+  NAME:=MA35D1 CPU@800MHz
+  CPU:=cpu800
 endef
 
-TFA_TARGETS:=generic
+define Trusted-Firmware-A/cpu1g
+  NAME:=MA35D1 CPU@1GHz
+  CPU:=cpu1g
+endef
+
+TFA_TARGETS:= \
+	cpu800 \
+	cpu1g
 
 TFA_MAKE_FLAGS += NEED_BL32=yes all dtbs fiptool
 
@@ -65,7 +73,7 @@ define Package/trusted-firmware-a/install
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/bl2.bin $(STAGING_DIR_IMAGE)/bl2.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/bl31.bin $(STAGING_DIR_IMAGE)/bl31.bin
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/fdts/${TFA_DTB_NAME}.dtb $(STAGING_DIR_IMAGE)/bl2.dtb
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/fdts/$(subst cpu800,$(CPU),$(TFA_DTB_NAME)).dtb $(STAGING_DIR_IMAGE)/bl2.dtb
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/tools/fiptool/fiptool $(STAGING_DIR_IMAGE)/fiptool
 	chmod +x $(STAGING_DIR_IMAGE)/fiptool
 endef

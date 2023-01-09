@@ -1694,7 +1694,8 @@ CONFIG_ZABBIX_POSTGRESQL=y
 # Boot Loaders
 #
 CONFIG_PACKAGE_optee-generic=y
-CONFIG_PACKAGE_trusted-firmware-a-generic=y
+# CONFIG_PACKAGE_trusted-firmware-a-cpu1g is not set
+CONFIG_PACKAGE_trusted-firmware-a-cpu800=y
 CONFIG_PACKAGE_u-boot-generic=y
 # end of Boot Loaders
 
