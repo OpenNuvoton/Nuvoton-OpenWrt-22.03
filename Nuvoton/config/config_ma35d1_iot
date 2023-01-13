@@ -51,10 +51,12 @@ CONFIG_TARGET_ma35d1_iot=y
 # CONFIG_TARGET_MULTI_PROFILE is not set
 # CONFIG_TARGET_ma35d1_iot_Default is not set
 # CONFIG_TARGET_ma35d1_iot_DEVICE_128m-nand is not set
-# CONFIG_TARGET_ma35d1_iot_DEVICE_128m-sdcard is not set
+# CONFIG_TARGET_ma35d1_iot_DEVICE_128m-sdcard0 is not set
+# CONFIG_TARGET_ma35d1_iot_DEVICE_128m-sdcard1 is not set
 # CONFIG_TARGET_ma35d1_iot_DEVICE_128m-spinand is not set
 CONFIG_TARGET_ma35d1_iot_DEVICE_512m-nand=y
-# CONFIG_TARGET_ma35d1_iot_DEVICE_512m-sdcard is not set
+# CONFIG_TARGET_ma35d1_iot_DEVICE_512m-sdcard0 is not set
+# CONFIG_TARGET_ma35d1_iot_DEVICE_512m-sdcard1 is not set
 # CONFIG_TARGET_ma35d1_iot_DEVICE_512m-spinand is not set
 CONFIG_HAS_SUBTARGETS=y
 CONFIG_HAS_DEVICES=y

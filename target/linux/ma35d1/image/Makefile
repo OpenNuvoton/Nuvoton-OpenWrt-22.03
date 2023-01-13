@@ -19,16 +19,15 @@ include $(SUBTARGET).mk
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
 define Build/copy-dtb
-#	echo DEVICE_DTS=$(DEVICE_DTS) >> /tmp/openwrt.env
-#	echo DEVICE_DTS_CONFIG=$(DEVICE_DTS_CONFIG) >> /tmp/openwrt.env
-	echo DEVICE_NAME=$(DEVICE_NAME) > /tmp/openwrt.env
+	sed -i 1,/\^$$/d /tmp/openwrt.env
+	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
 	$(CP) $(KDIR)/$(DEVICE_DTS_CONFIG).dtb $(STAGING_DIR_IMAGE)/Image.dtb
 endef
 
 define Build/sdcard-img
 	$(info "Build/sdcard-img" $(1))
 	SIGNATURE="$(IMG_PART_SIGNATURE)" \
-	./gen_ma35d1_sdcard_img.sh $@ \
+	/usr/bin/bash ./gen_ma35d1_sdcard_img.sh $@ \
 		$(CONFIG_TARGET_KERNEL_PARTSIZE) \
 		$(CONFIG_TARGET_ROOTFS_PARTSIZE) \
 		${KDIR} \
@@ -47,6 +46,7 @@ ifeq ($(1),squashfs)
 	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_KERNEL_PARTSIZE=$(CONFIG_TARGET_KERNEL_PARTSIZE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_ROOTFS_PARTSIZE=$(CONFIG_TARGET_ROOTFS_PARTSIZE) >> /tmp/openwrt.env
+	echo >> /tmp/openwrt.env
 	env - BASH_ENV=/tmp/openwrt.env /usr/bin/bash $(BUILD_DIR)/../../Nuvoton/script/pack-image.sh
 endif
 endef
@@ -84,8 +84,8 @@ endef
 
 define Device/som-sdcard
   FILESYSTEMS := ext4
-  IMAGES := sdcard.img.gz
-  IMAGE/sdcard.img.gz := sdcard-img | append-metadata | gzip
+  IMAGES := sysupgrade.gz
+  IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
 endef
 endif
 
@@ -102,8 +102,8 @@ endef
 
 define Device/iot-sdcard
   FILESYSTEMS := ext4
-  IMAGES := sysupgrade
-  IMAGE/sysupgrade := sdcard-img | append-metadata | gzip
+  IMAGES := sysupgrade.gz
+  IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
 endef
 endif
 

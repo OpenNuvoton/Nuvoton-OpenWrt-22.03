@@ -51,13 +51,16 @@ CONFIG_TARGET_ma35d1_som=y
 # CONFIG_TARGET_MULTI_PROFILE is not set
 # CONFIG_TARGET_ma35d1_som_Default is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_1g-nand is not set
-# CONFIG_TARGET_ma35d1_som_DEVICE_1g-sdcard is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_1g-sdcard0 is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_1g-sdcard1 is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_1g-spinand is not set
 CONFIG_TARGET_ma35d1_som_DEVICE_256m-nand=y
-# CONFIG_TARGET_ma35d1_som_DEVICE_256m-sdcard is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_256m-sdcard0 is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_256m-sdcard1 is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_256m-spinand is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_512m-nand is not set
-# CONFIG_TARGET_ma35d1_som_DEVICE_512m-sdcard is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_512m-sdcard0 is not set
+# CONFIG_TARGET_ma35d1_som_DEVICE_512m-sdcard1 is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_512m-spinand is not set
 CONFIG_HAS_SUBTARGETS=y
 CONFIG_HAS_DEVICES=y

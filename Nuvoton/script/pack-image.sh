@@ -128,6 +128,10 @@ uboot_cmd() {
 	elif echo $DEVICE_NAME | grep -q "nand"
 	then
 		sed -i "s/boot_targets=/boot_targets=nand0 /1" ${STAGING_DIR_IMAGE}/uboot-env.txt
+	elif echo $DEVICE_NAME | grep -q "sdcard1" && [ "${SUBTARGET}" = "som" ]
+	then
+		sed -i "s/mmc_block=mmcblk0p3/mmc_block=mmcblk1p3/1" ${STAGING_DIR_IMAGE}/uboot-env.txt
+		sed -i "s/boot_targets=/boot_targets=mmc1 /1" ${STAGING_DIR_IMAGE}/uboot-env.txt
 	fi
 
 	${HOST_DIR}/bin/mkenvimage -s 0x10000 -o ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.txt

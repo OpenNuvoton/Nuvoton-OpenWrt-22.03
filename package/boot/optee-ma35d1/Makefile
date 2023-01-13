@@ -43,6 +43,7 @@ else
 endif
 
 define Package/optee/install
+	echo OPTEE_PROFILE=$(PROFILE) >> /tmp/openwrt.env
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee.bin $(STAGING_DIR_IMAGE)/tee.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee-pager_v2.bin $(STAGING_DIR_IMAGE)/tee-pager_v2.bin

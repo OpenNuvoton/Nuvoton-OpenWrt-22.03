@@ -27,12 +27,10 @@ define U-Boot/generic
   NAME:=MA35D1 board
 ifneq ($(findstring spinand,$(PROFILE)),)
   UBOOT_CONFIG:=ma35d1_spinand
-else ifneq ($(findstring sdcard,$(PROFILE)),)
-ifeq ($(SUBTARGET),iot)
-  UBOOT_CONFIG:=ma35d1_sdcard1
-else ifeq ($(SUBTARGET),som)
+else ifneq ($(findstring sdcard0,$(PROFILE)),)
   UBOOT_CONFIG:=ma35d1_sdcard0
-endif
+else ifneq ($(findstring sdcard1,$(PROFILE)),)
+  UBOOT_CONFIG:=ma35d1_sdcard1
 else
   UBOOT_CONFIG:=ma35d1_nand
 endif
