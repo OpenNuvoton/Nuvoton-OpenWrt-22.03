@@ -14,10 +14,10 @@ nuc980_board_detect() {
 
 	case "$machine" in
 	"Nuvoton NUC980 CHILI V1.0")
-		name="chili"
+		name="spinor"
 		;;
 	"Nuvoton NUC980 IOT V1.0")
-		name="iot"
+		name="spinand"
 		;;
 	*)
 		name="generic"

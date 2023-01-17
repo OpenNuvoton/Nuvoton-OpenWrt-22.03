@@ -10,12 +10,18 @@ platform_check_image() {
 	return 0
 }
 
-platform_pre_upgrade() {
+platform_do_upgrade() {
         local board=$(nuc980_board_name)
 
         case "$board" in
-        *iot*)
-                ;;
+        *spinor*)
+		REQUIRE_IMAGE_METADATA=1
+		default_do_upgrade "$1"
+		;;
+        *spinand*)
+		REQUIRE_IMAGE_METADATA=1
+		nand_do_upgrade "$1"
+		;;
         esac
 }
 

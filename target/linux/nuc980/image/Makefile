@@ -50,7 +50,7 @@ define Device/Default
 endef
 
 ifeq ($(SUBTARGET),chili)
-define Device/chili
+define Device/spinor
   IMAGE_SIZE := 32768k
   PAGESIZE := 256
   BLOCKSIZE := 64k
@@ -58,19 +58,19 @@ define Device/chili
   IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
-TARGET_DEVICES += chili
+TARGET_DEVICES += spinor
 endif
 
 ifeq ($(SUBTARGET),iot)
-define Device/iot
+define Device/spinand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048
   BLOCKSIZE := 128k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
-TARGET_DEVICES += iot
+TARGET_DEVICES += spinand
 endif
 
 $(eval $(call BuildImage))
