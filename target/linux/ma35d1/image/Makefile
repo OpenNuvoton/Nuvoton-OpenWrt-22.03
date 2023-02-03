@@ -19,6 +19,7 @@ include $(SUBTARGET).mk
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
 define Build/copy-dtb
+	touch /tmp/openwrt.env
 	sed -i 1,/\^$$/d /tmp/openwrt.env
 	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
 	$(CP) $(KDIR)/$(DEVICE_DTS_CONFIG).dtb $(STAGING_DIR_IMAGE)/Image.dtb
