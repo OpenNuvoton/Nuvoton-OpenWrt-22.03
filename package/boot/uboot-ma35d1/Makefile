@@ -6,7 +6,6 @@
 #
 
 include $(TOPDIR)/rules.mk
-include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=uboot-ma35d1
 PKG_SOURCE_PROTO:=git
@@ -17,6 +16,7 @@ PKG_MIRROR_HASH:=6640cd5296b7939bd6747ea1f42c420618aeb3e4f48735cc1ceb7a46b0ec007
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/image.mk
 
 define U-Boot/Default
   BUILD_TARGET:=ma35d1
@@ -46,12 +46,6 @@ define Build/InstallDev
 	$(foreach img,$(UBOOT_IMAGE), \
 		$(CP) $(PKG_BUILD_DIR)/$(img) $(STAGING_DIR_IMAGE)/$(img); \
 	)
-	$(STAGING_DIR_IMAGE)/fiptool create \
-		--soc-fw $(STAGING_DIR_IMAGE)/bl31.bin \
-		--tos-fw $(STAGING_DIR_IMAGE)/tee-header_v2.bin \
-		--tos-fw-extra1 $(STAGING_DIR_IMAGE)/tee-pager_v2.bin \
-		--nt-fw $(STAGING_DIR_IMAGE)/u-boot.bin \
-		$(STAGING_DIR_IMAGE)/fip.bin
 endef
 
 $(eval $(call BuildPackage/U-Boot))

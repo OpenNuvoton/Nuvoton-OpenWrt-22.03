@@ -42,11 +42,17 @@ ifeq ($(1),squashfs)
 	echo BOARD=$(BOARD) >> /tmp/openwrt.env
 	echo SUBTARGET=$(SUBTARGET) >> /tmp/openwrt.env
 	echo PROFILE=$(PROFILE) >> /tmp/openwrt.env
+	echo TOPDIR=$(TOPDIR) >> /tmp/openwrt.env
 	echo KDIR=$(KDIR) >> /tmp/openwrt.env
 	echo BIN_DIR=$(BIN_DIR) >> /tmp/openwrt.env
+	echo STAGING_DIR_HOST=$(STAGING_DIR_HOST) >> /tmp/openwrt.env
 	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_KERNEL_PARTSIZE=$(CONFIG_TARGET_KERNEL_PARTSIZE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_ROOTFS_PARTSIZE=$(CONFIG_TARGET_ROOTFS_PARTSIZE) >> /tmp/openwrt.env
+ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
+	echo CONFIG_MA35D1_AES_KEY=$(CONFIG_MA35D1_AES_KEY) >> /tmp/openwrt.env
+	echo CONFIG_MA35D1_ECDSA_KEY=$(CONFIG_MA35D1_ECDSA_KEY) >> /tmp/openwrt.env
+endif
 	echo >> /tmp/openwrt.env
 	env - BASH_ENV=/tmp/openwrt.env /usr/bin/bash $(BUILD_DIR)/../../Nuvoton/script/pack-image.sh
 endif

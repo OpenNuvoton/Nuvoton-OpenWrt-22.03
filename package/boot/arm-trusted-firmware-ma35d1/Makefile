@@ -4,7 +4,6 @@
 #
 
 include $(TOPDIR)/rules.mk
-include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=arm-trusted-firmware-ma35d1
 PKG_SOURCE_PROTO:=git
@@ -19,6 +18,7 @@ PKG_LICENSE_FILES:=LICENCE.ma35d1
 
 include $(INCLUDE_DIR)/trusted-firmware-a.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/image.mk
 
 define Trusted-Firmware-A/Default
   BUILD_TARGET:=ma35d1
@@ -48,6 +48,10 @@ ifeq ($(SUBTARGET),iot)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0
 else ifeq ($(SUBTARGET),som)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0
+endif
+
+ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
+  TFA_MAKE_FLAGS += FIP_DE_AES=1
 endif
 
 $(info PROFILE = $(PROFILE))

@@ -4,7 +4,6 @@
 #
 
 include $(TOPDIR)/rules.mk
-include $(INCLUDE_DIR)/image.mk
 
 PKG_NAME:=optee-ma35d1
 PKG_SOURCE_PROTO:=git
@@ -15,6 +14,7 @@ PKG_MIRROR_HASH:=c6405b3ff206e117b161316cf772ee854e49b71ec665e6fe2df736efb7eabc7
 
 include $(INCLUDE_DIR)/optee.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/image.mk
 
 define Optee/Default
   BUILD_TARGET:=ma35d1

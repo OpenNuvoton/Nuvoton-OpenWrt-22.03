@@ -1,9 +1,9 @@
 {
     "image":
     [
-        {  
+        {
           "offset": "0x000000",
-          "file": "conv/header.bin",
+          "file": "header.bin",
           "type": 1
         },
         {
