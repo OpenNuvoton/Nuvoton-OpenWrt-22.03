@@ -157,7 +157,6 @@ IMAGE_CMD_header() {
 }
 
 IMAGE_CMD_pack() {
-	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-$1
 	cp ${STAGING_DIR_IMAGE}/fip.bin ${STAGING_DIR_IMAGE}/fip.bin-$1
 
 	if [ $IS_SECURE == "yes" ]; then
@@ -183,6 +182,8 @@ IMAGE_CMD_pack() {
 }
 
 IMAGE_CMD-spinand() {
+	cd ${STAGING_DIR_IMAGE}
+	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-spinand
 	# convert image to UBI format for SPINAND
 	${STAGING_DIR_HOST}/bin/ubinize ${UBINIZE_ARGS} -o ${STAGING_DIR_IMAGE}/uboot-env.ubi-spinand ${STAGING_DIR_IMAGE}/ma35d1-uEnv-spinand-ubi.cfg
 
@@ -195,6 +196,9 @@ IMAGE_CMD-spinand() {
 }
 
 IMAGE_CMD-nand() {
+	cd ${STAGING_DIR_IMAGE}
+	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-nand
+
 	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-firmware.bin firmware.bin
 	cp ${NUWRITER_DIR}/pack-nand.json ${STAGING_DIR_IMAGE}/pack-nand.json
 
@@ -206,6 +210,9 @@ IMAGE_CMD-nand() {
 IMAGE_CMD_sdcard() {
 	EXT4_START=$((3072+1024+${CONFIG_TARGET_KERNEL_PARTSIZE}*1024))
 	EXT4_END=$(($EXT4_START+${CONFIG_TARGET_ROOTFS_PARTSIZE}*1024))
+
+	cd ${STAGING_DIR_IMAGE}
+	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-sdcard
 
 	dd if=${KDIR}/${DEVICE_NAME}.pt of=${STAGING_DIR_IMAGE}/MBR.scdard.bin conv=notrunc,fsync seek=0 count=1 bs=512
 	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-uImage Image
