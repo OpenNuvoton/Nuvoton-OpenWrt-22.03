@@ -164,14 +164,14 @@ IMAGE_CMD_pack() {
 			cat ${STAGING_DIR_IMAGE}/pack-$1.json | \
 				jq 'setpath(["image",2,"file"];"enc_bl2.dtb")' | \
 				jq 'setpath(["image",3,"file"];"enc_bl2.bin")' \
-				> ${STAGING_DIR_IMAGE}/pack-$1.json
+				> ${STAGING_DIR_IMAGE}/pack-$1-enc.json
 		else
 			cat ${STAGING_DIR_IMAGE}/pack-$1.json | \
 				jq 'setpath(["image",1,"file"];"enc_bl2.dtb")' | \
 				jq 'setpath(["image",2,"file"];"enc_bl2.bin")' \
-				> ${STAGING_DIR_IMAGE}/pack-$1.json
+				> ${STAGING_DIR_IMAGE}/pack-$1-enc.json
 		fi
-		python3 ${NUWRITER_DIR}/nuwriter.py -p ${STAGING_DIR_IMAGE}/pack-$1.json
+		python3 ${NUWRITER_DIR}/nuwriter.py -p ${STAGING_DIR_IMAGE}/pack-$1-enc.json
 		cp pack/pack.bin ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-pack-enc.bin
 		rm -rf `date "+%m%d-*"` conv pack
 	else
