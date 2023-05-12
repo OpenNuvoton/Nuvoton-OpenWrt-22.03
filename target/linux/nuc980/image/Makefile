@@ -16,9 +16,14 @@ UBI_OPTS = -m 2048 -p 128KiB -s 2048 -O 2048
 
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
-define Build/copy-dtb
+define Build/copy-dtb1
 	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
-	$(CP) $(KDIR)/../../../Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
+	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
+endef
+
+define Build/copy-dtb2
+	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)-v*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
+	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
 endef
 
 define Image/Build
@@ -35,7 +40,11 @@ KERNEL_LOADADDR=0x00008000
 
 define Device/select-dtb
   IMAGES += image-dtb
-  IMAGE/image-dtb := copy-dtb
+ifeq ($(SUBTARGET),chili)
+  IMAGE/image-dtb := copy-dtb1
+else ifeq ($(SUBTARGET),iot)
+  IMAGE/image-dtb := copy-dtb2
+endif
 endef
 
 define Device/Default

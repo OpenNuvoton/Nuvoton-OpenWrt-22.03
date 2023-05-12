@@ -100,8 +100,8 @@ define Kernel/Patch/Default
 		exit 1; \
 	fi
 	$(call PatchDir,$(LINUX_DIR),$(GENERIC_BACKPORT_DIR),generic-backport/)
-#	$(call PatchDir,$(LINUX_DIR),$(GENERIC_PATCH_DIR),generic/)
-#	$(call PatchDir,$(LINUX_DIR),$(GENERIC_HACK_DIR),generic-hack/)
+	$(call PatchDir,$(LINUX_DIR),$(GENERIC_PATCH_DIR),generic/)
+	$(call PatchDir,$(LINUX_DIR),$(GENERIC_HACK_DIR),generic-hack/)
 	$(call PatchDir,$(LINUX_DIR),$(PATCH_DIR),platform/)
 endef
 
