@@ -17,11 +17,17 @@ UBI_OPTS = -m 2048 -p 128KiB -s 2048 -O 2048
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
 define Build/copy-dtb1
+	touch /tmp/openwrt.env
+	sed -i 1,/\^$$/d /tmp/openwrt.env
+	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
 	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
 	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
 endef
 
 define Build/copy-dtb2
+	touch /tmp/openwrt.env
+	sed -i 1,/\^$$/d /tmp/openwrt.env
+	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
 	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)-v*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
 	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
 endef
@@ -29,6 +35,27 @@ endef
 define Image/Build
 	$(info "Image/Build" $(1))
 	$(call Image/Build/$(1),$(1))
+ifeq ($(1),squashfs)
+	echo ARCH=$(ARCH) >> /tmp/openwrt.env
+	echo BOARD=$(BOARD) >> /tmp/openwrt.env
+	echo SUBTARGET=$(SUBTARGET) >> /tmp/openwrt.env
+	echo PROFILE=$(PROFILE) >> /tmp/openwrt.env
+	echo TOPDIR=$(TOPDIR) >> /tmp/openwrt.env
+	echo KDIR=$(KDIR) >> /tmp/openwrt.env
+	echo LINUX_DIR=$(LINUX_DIR) >> /tmp/openwrt.env
+	echo BIN_DIR=$(BIN_DIR) >> /tmp/openwrt.env
+	echo TOOLCHAIN_DIR=$(TOOLCHAIN_DIR) >> /tmp/openwrt.env
+	echo TARGET_CXXFLAGS=\"$(TARGET_CXXFLAGS)\" >> /tmp/openwrt.env
+	echo TARGET_CFLAGS=\"$(TARGET_CFLAGS)\" >> /tmp/openwrt.env
+	echo TARGET_CPPFLAGS=\"$(TARGET_CPPFLAGS)\" >> /tmp/openwrt.env
+	echo STAGING_DIR=$(STAGING_DIR) >> /tmp/openwrt.env
+	echo STAGING_DIR_HOST=$(STAGING_DIR_HOST) >> /tmp/openwrt.env
+	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
+	echo CONFIG_TARGET_KERNEL_PARTSIZE=$(CONFIG_TARGET_KERNEL_PARTSIZE) >> /tmp/openwrt.env
+	echo CONFIG_TARGET_ROOTFS_PARTSIZE=$(CONFIG_TARGET_ROOTFS_PARTSIZE) >> /tmp/openwrt.env
+	echo >> /tmp/openwrt.env
+	env - BASH_ENV=/tmp/openwrt.env /usr/bin/bash $(TOPDIR)/Nuvoton/script/env-setup.sh
+endif
 endef
 
 
