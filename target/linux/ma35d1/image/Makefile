@@ -44,6 +44,7 @@ ifeq ($(1),squashfs)
 	echo SUBTARGET=$(SUBTARGET) >> /tmp/openwrt.env
 	echo PROFILE=$(PROFILE) >> /tmp/openwrt.env
 	echo TOPDIR=$(TOPDIR) >> /tmp/openwrt.env
+	echo PLATFORM_DIR=$(PLATFORM_DIR) >> /tmp/openwrt.env
 	echo KDIR=$(KDIR) >> /tmp/openwrt.env
 	echo LINUX_DIR=$(LINUX_DIR) >> /tmp/openwrt.env
 	echo BIN_DIR=$(BIN_DIR) >> /tmp/openwrt.env
@@ -51,6 +52,8 @@ ifeq ($(1),squashfs)
 	echo TARGET_CXXFLAGS=\"$(TARGET_CXXFLAGS)\" >> /tmp/openwrt.env
 	echo TARGET_CFLAGS=\"$(TARGET_CFLAGS)\" >> /tmp/openwrt.env
 	echo TARGET_CPPFLAGS=\"$(TARGET_CPPFLAGS)\" >> /tmp/openwrt.env
+	echo GNU_TARGET_NAME=\"$(GNU_TARGET_NAME)\" >> /tmp/openwrt.env
+	echo GNU_HOST_NAME=\"$(GNU_HOST_NAME)\" >> /tmp/openwrt.env
 	echo STAGING_DIR=$(STAGING_DIR) >> /tmp/openwrt.env
 	echo STAGING_DIR_HOST=$(STAGING_DIR_HOST) >> /tmp/openwrt.env
 	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
