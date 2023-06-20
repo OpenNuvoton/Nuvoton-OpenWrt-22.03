@@ -6,7 +6,8 @@ ARCH:=aarch64
 BOARD:=ma35d1
 BOARDNAME:=Nuvoton MA35D1
 FEATURES:=fpu gpio usb squashfs targz nand ubifs boot-part rootfs-part jffs2
-CPU_TYPE:=cortex-a35
+#comment CPU_TYPE due to OpenWrt opkg server not support Cortex-A35 architecture yet
+#CPU_TYPE:=cortex-a35
 SUBTARGETS:=som iot
 
 KERNEL_PATCHVER:=5.10
