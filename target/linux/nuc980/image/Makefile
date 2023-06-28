@@ -74,6 +74,8 @@ ifeq ($(SUBTARGET),chili)
   IMAGE/image-dtb := copy-dtb1
 else ifeq ($(SUBTARGET),iot)
   IMAGE/image-dtb := copy-dtb2
+else ifeq ($(SUBTARGET),iot-g2)
+  IMAGE/image-dtb := copy-dtb2
 endif
 endef
 
@@ -101,6 +103,18 @@ TARGET_DEVICES += spinor
 endif
 
 ifeq ($(SUBTARGET),iot)
+define Device/spinand
+  IMAGE_SIZE := 32768k
+  PAGESIZE := 2048
+  BLOCKSIZE := 128k
+  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  $(Device/select-dtb)
+endef
+TARGET_DEVICES += spinand
+endif
+
+ifeq ($(SUBTARGET),iot-g2)
 define Device/spinand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048

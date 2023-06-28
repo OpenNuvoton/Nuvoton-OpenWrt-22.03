@@ -48,6 +48,7 @@ CONFIG_TARGET_nuc980=y
 # CONFIG_TARGET_x86 is not set
 CONFIG_TARGET_nuc980_chili=y
 # CONFIG_TARGET_nuc980_iot is not set
+# CONFIG_TARGET_nuc980_iot_g2 is not set
 # CONFIG_TARGET_MULTI_PROFILE is not set
 CONFIG_TARGET_nuc980_chili_DEVICE_spinor=y
 CONFIG_HAS_SUBTARGETS=y

@@ -18,7 +18,7 @@
 	compatible = "nuvoton,nuc980-dev-v1.0", "nuvoton,nuc980";
 
 	chosen {
-		bootargs = "noinitrd rootfstype=squashfs,ubifs console=ttyS0,115200n8 rdinit=/sbin/init mem=64M lpj=744448";
+		bootargs = "noinitrd rootfstype=squashfs,ubifs console=ttyS0,115200n8 rdinit=/sbin/init mem=128M lpj=744448";
 	};
 
 	apb {
@@ -77,10 +77,22 @@
 		};
 
 		can0: can@b00a0000 {
+			pinctrl-0 = <&pinctrl_can0_PC>;
 			status = "disabled";
 		};
 
 		can1: can@b00a1000 {
+			pinctrl-0 = <&pinctrl_can1_PG>;
+			status = "disabled";
+		};
+
+		can2: can@b00a2000 {
+			pinctrl-0 = <&pinctrl_can2_PB_PC>;
+			status = "disabled";
+		};
+
+		can3: can@b00a3000 {
+			pinctrl-0 = <&pinctrl_can3_PA>;
 			status = "disabled";
 		};
 

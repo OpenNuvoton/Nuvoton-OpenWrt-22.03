@@ -134,7 +134,7 @@
 		qspi0: spi@b0060000 {
 			status = "okay";
 			flash: flash@0 {
-				compatible = "w25q128";
+				compatible = "w25q256";
 				#address-cells = <1>;
 				#size-cells = <1>;
 				reg = <0>;
@@ -206,7 +206,7 @@
 		};
 
 		sdh@b0018000 {
-			status = "okay";
+			status = "disabled";
 		};
 
 		emac0@b0012000 {
