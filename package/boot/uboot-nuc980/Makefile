@@ -34,16 +34,16 @@ define U-Boot/iot
   UBOOT_CONFIG:=nuc980_iot
 endef
 
-define U-Boot/iot-g2
+define U-Boot/iotg2
   NAME:=NUC980 IoT-G2 board
-  BUILD_SUBTARGET:=iot_g2
+  BUILD_SUBTARGET:=iotg2
   UBOOT_CONFIG:=nuc980_iot
 endef
 
 UBOOT_TARGETS := \
 	chili \
 	iot \
-	iot-g2
+	iotg2
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)

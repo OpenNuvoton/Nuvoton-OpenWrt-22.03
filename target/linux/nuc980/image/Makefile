@@ -74,7 +74,7 @@ ifeq ($(SUBTARGET),chili)
   IMAGE/image-dtb := copy-dtb1
 else ifeq ($(SUBTARGET),iot)
   IMAGE/image-dtb := copy-dtb2
-else ifeq ($(SUBTARGET),iot-g2)
+else ifeq ($(SUBTARGET),iotg2)
   IMAGE/image-dtb := copy-dtb2
 endif
 endef
@@ -114,7 +114,7 @@ endef
 TARGET_DEVICES += spinand
 endif
 
-ifeq ($(SUBTARGET),iot-g2)
+ifeq ($(SUBTARGET),iotg2)
 define Device/spinand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048

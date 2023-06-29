@@ -7,7 +7,7 @@ BOARD:=nuc980
 BOARDNAME:=Nuvoton NUC980
 FEATURES:=gpio usb squashfs targz nand ubifs boot-part rootfs-part jffs2
 CPU_TYPE:=arm926ej-s
-SUBTARGETS:=chili iot iot-g2
+SUBTARGETS:=chili iot iotg2
 
 KERNEL_PATCHVER:=5.10
 
