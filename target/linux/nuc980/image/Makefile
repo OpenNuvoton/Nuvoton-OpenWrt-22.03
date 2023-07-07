@@ -16,15 +16,7 @@ UBI_OPTS = -m 2048 -p 128KiB -s 2048 -O 2048
 
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
-define Build/copy-dtb1
-	touch /tmp/openwrt.env
-	sed -i 1,/\^$$/d /tmp/openwrt.env
-	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
-	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
-	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
-endef
-
-define Build/copy-dtb2
+define Build/copy-dtb
 	touch /tmp/openwrt.env
 	sed -i 1,/\^$$/d /tmp/openwrt.env
 	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
@@ -70,13 +62,7 @@ KERNEL_LOADADDR=0x00008000
 
 define Device/select-dtb
   IMAGES += image-dtb
-ifeq ($(SUBTARGET),chili)
-  IMAGE/image-dtb := copy-dtb1
-else ifeq ($(SUBTARGET),iot)
-  IMAGE/image-dtb := copy-dtb2
-else ifeq ($(SUBTARGET),iotg2)
-  IMAGE/image-dtb := copy-dtb2
-endif
+  IMAGE/image-dtb := copy-dtb
 endef
 
 define Device/Default
@@ -90,6 +76,18 @@ define Device/Default
   IMAGES := firmware.bin sysupgrade.bin
 endef
 
+ifeq ($(SUBTARGET),evb)
+define Device/nand
+  IMAGE_SIZE := 32768k
+  PAGESIZE := 2048
+  BLOCKSIZE := 128k
+  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  $(Device/select-dtb)
+endef
+TARGET_DEVICES += nand
+endif
+
 ifeq ($(SUBTARGET),chili)
 define Device/spinor
   IMAGE_SIZE := 32768k
@@ -102,19 +100,7 @@ endef
 TARGET_DEVICES += spinor
 endif
 
-ifeq ($(SUBTARGET),iot)
-define Device/spinand
-  IMAGE_SIZE := 32768k
-  PAGESIZE := 2048
-  BLOCKSIZE := 128k
-  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
-  $(Device/select-dtb)
-endef
-TARGET_DEVICES += spinand
-endif
-
-ifeq ($(SUBTARGET),iotg2)
+ifneq ($(findstring iot,$(SUBTARGET)),)
 define Device/spinand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048

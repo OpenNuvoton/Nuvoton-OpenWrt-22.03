@@ -22,6 +22,12 @@ define U-Boot/Default
   UBOOT_IMAGE:=u-boot.bin
 endef
 
+define U-Boot/evb
+  NAME:=NUC980 EVB board
+  BUILD_SUBTARGET:=evb
+  UBOOT_CONFIG:=nuc980
+endef
+
 define U-Boot/chili
   NAME:=NUC980 Chili board
   BUILD_SUBTARGET:=chili
@@ -41,6 +47,7 @@ define U-Boot/iotg2
 endef
 
 UBOOT_TARGETS := \
+	evb \
 	chili \
 	iot \
 	iotg2
