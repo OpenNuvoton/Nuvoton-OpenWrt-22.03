@@ -1419,7 +1419,7 @@
 		dma-names = "tx","rx";
 		pdma_reqsel_tx = <54>;
 		pdma_reqsel_rx = <55>;
-		use_pdma = <1>;
+		use_pdma = <0>;
 		num_cs = <2>;
 		lsb = <0>;
 		sleep = <0>;
