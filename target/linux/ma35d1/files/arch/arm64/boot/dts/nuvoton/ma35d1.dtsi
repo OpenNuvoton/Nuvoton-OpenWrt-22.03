@@ -103,18 +103,6 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
-		display_buf: display_buf@0 {
-			reg = <0x0 0x8C800000 0x0 0x3000000>; /* 48MiB */
-			no-map;
-		};
-		vc8k_buf: vc8k_buf@0 {
-			reg = <0x0 0x8A800000 0x0 0x2000000>; /* 32MiB */
-			no-map;
-		};
-		gc520l_buf: gc520l_buf@0 {
-			reg = <0x0 0x8A000000 0x0 0x800000>; /* 8MiB */
-			no-map;
-		};
 		rproc_buf: rproc_buf@0 {
 			reg = <0x0 0x80020000 0x0 0x60000>; /* 384KB */
 			no-map;
@@ -170,10 +158,27 @@
 		
 		/* PDMA Setting*/
 		dmas = <&pdma2 2>,<&pdma3 3>;
-        	dma-names = "tx", "rx";
-                /*pdma-enable = <1>;*/ /* enable PDMA */
+		dma-names = "tx", "rx";
+		/*pdma-enable = <1>;*/ /* enable PDMA */
 		pdma-enable = <0>; /* Disable PDMA */
 
+		status = "disabled";
+	};
+
+	puart1:serial@80710000 {
+		compatible = "nuvoton,ma35d1-puart";
+		reg = <0x0 0x40710000 0x0 0x10000>;
+		port-number = <1>;
+		/* PDMA Setting*/
+		pdma-port = <0>;
+		pdma-tx-ch = <0>;
+		pdma-rx-ch = <1>;
+		interrupts = <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>, /* uart interrupt */
+					 <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>; /* pdma interrupt */
+		interrupt-names = "puart_uart", "puart_dma";
+		clocks = <&clk UART1_GATE>, /* enable uart clock */
+				 <&clk PDMA0_GATE>; /* enable pdma clock */
+		clock-names = "puart_clk", "pdma_clk";
 		status = "disabled";
 	};
 
@@ -434,13 +439,13 @@
 		clocks = <&clk VC8K_GATE>;
 		nuvoton,sys = <&sys>;
 		interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
-		memory-region = <&vc8k_buf>;
 		pp_out_enable = "yes";
+		pp_wait_vsync = <0>;  /* timeout(ms) of waiting VSYNC when PP enabled */
 		fb_width = <1024>;
 		fb_height = <600>;
 		fb_fmt = "RGB888";   /* RGB888, RGB565, or YUV420P */
 		use_dev_coherent = <1>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	/* Crypto engine */
@@ -645,8 +650,8 @@
 	};
 
 	misctrl {
-		compatible	= "nuvoton,ma35d1-misctrl";
-		status = "disabled";
+		compatible = "nuvoton,ma35d1-misctrl";
+		status = "okay";
 	};
 
 	rproc {
@@ -671,7 +676,6 @@
 		reg = <0x0 0x40120000 0x0 0x10000>;
 		interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-names = "macirq";
-		mac-address = [ 00 11 22 33 44 55 ];
 		phy-mode = "rgmii-id";
 		nuvoton,ma35d1-sys = <&sys>;
 		clocks = <&clk EMAC0_GATE>, <&clk EPLL_DIV8>;
@@ -699,7 +703,6 @@
 		reg = <0x0 0x40130000 0x0 0x10000>;
 		interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
 		interrupt-names = "macirq";
-		mac-address = [ 00 11 22 33 44 66 ];
 		phy-mode = "rgmii-id";
 		nuvoton,ma35d1-sys = <&sys>;
 		clocks = <&clk EMAC1_GATE>, <&clk EPLL_DIV8>;
@@ -1029,12 +1032,12 @@
 		reg = <0x0 0x40180000 0x0 0x2000>;
 		interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk SDH0_GATE>;
+		resets = <&reset MA35D1_RESET_SDH0>;
 		clock-names = "core";
 		bus-width = <4>;
 		max-frequency = <100000000>;
 		dhci-caps-mask = <0x4 0x0>;  /* No support DDR50 mode */
 		no-1-8-v;
-		cd-gpios = <&gpioc 6 GPIO_ACTIVE_LOW>;
 		wp-gpios = <&gpioc 7 GPIO_ACTIVE_HIGH>;
 		status = "disabled";
 		assigned-clocks = <&clk SDH0_MUX>;
@@ -1053,7 +1056,6 @@
 		max-frequency = <200000000>;
 		sdhci-caps-mask = <0x4 0x0>;  /* No support DDR50 mode */
 		status = "disabled";
-		cd-gpios = <&gpioj 5 GPIO_ACTIVE_LOW>;
 		wp-gpios = <&gpioj 4 GPIO_ACTIVE_LOW>;
 		assigned-clocks = <&clk SDH1_MUX>;
 		assigned-clock-parents = <&clk APLL>;
@@ -1417,7 +1419,7 @@
 		dma-names = "tx","rx";
 		pdma_reqsel_tx = <54>;
 		pdma_reqsel_rx = <55>;
-		use_pdma = <0>;
+		use_pdma = <1>;
 		num_cs = <2>;
 		lsb = <0>;
 		sleep = <0>;
@@ -1642,7 +1644,6 @@
 		interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk GFX_GATE>;
 		resets = <&reset MA35D1_RESET_GFX>;
-		memory-region = <&gc520l_buf>;
 		status = "disabled";
 	};
 
@@ -1654,6 +1655,7 @@
 		clocks = <&clk DCU_GATE>, <&clk DCUP_DIV>;
 		clock-names = "dcu_gate", "dcup_div";
 		resets = <&reset MA35D1_RESET_DISP>;
+		//pwr-gpios = <&gpiok 5 GPIO_ACTIVE_HIGH>; //LVDS pwr-enable pin
 		status = "disabled";
 
 		reset_offset_en = "no";
@@ -1661,7 +1663,8 @@
 		//RGB interface
 		bits-per-pixel = <32>;
 		pixel-fmt = <6>; //4:RGB565 6:RGB888 8:UYVY 17:NV12
-		bus-width = <24>;
+		swizzle = <0>;//0:ARGB, 1:RGBA, 2:ABGR, 3:BGRA
+		dpi-config = <5>;//0:D16CFG1, 1:D16CFG2, 2:D16CFG3, 3:D18CFG1, 4:D18CFG2, 5:D24
 
 		buffer-num = <3>;
 		colorkey-en = <1>;
@@ -1747,7 +1750,21 @@
 				vsync-active = <1>;
 			};
 
-			timing5: mipi_1920x1200 {
+			timing5: hdmi_1920x1080 {
+				clock-frequency = <148500000>;
+				hactive = <1920>;
+				vactive = <1080>;
+				hsync-len = <44>;
+				hfront-porch = <88>;
+				hback-porch = <148>;
+				vsync-len = <5>;
+				vfront-porch  = <4>;
+				vback-porch = <36>;
+				hsync-active = <1>;
+				vsync-active = <1>;
+			};
+
+			timing6: mipi_1920x1200 {
 				clock-frequency = <148000000>;
 				hactive = <1920>;
 				vactive = <1200>;
@@ -1761,16 +1778,30 @@
 				vsync-active = <1>;
 			};
 
-			timing6: mipi_1024x600 {
-				clock-frequency = <54000000>;
-				hactive = <1024>;
-				vactive = <600>;
-				hsync-len = <20>;
-				hfront-porch = <160>;
-				hback-porch = <140>;
-				vsync-len = <3>;
-				vfront-porch = <12>;
-				vback-porch = <20>;
+			timing7: edp_1920x1080 {
+				clock-frequency = <148000000>;
+				hactive = <1920>;
+				vactive = <1080>;
+				hsync-len = <160>;
+				hfront-porch = <32>;
+				hback-porch = <48>;
+				vsync-len = <31>;
+				vfront-porch  = <5>;
+				vback-porch = <3>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+			};
+
+			timing8: lvds_1920x1200 {
+				clock-frequency = <148000000>;
+				hactive = <1920>;
+				vactive = <1200>;
+				hsync-len = <16>;
+				hfront-porch = <32>;
+				hback-porch = <16>;
+				vsync-len = <2>;
+				vfront-porch  = <15>;
+				vback-porch = <18>;
 				hsync-active = <0>;
 				vsync-active = <0>;
 			};
