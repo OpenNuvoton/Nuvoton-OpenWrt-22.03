@@ -1,0 +1,42 @@
+#!/bin/sh /etc/rc.common
+
+START=95
+STOP=5
+
+USE_PROCD=1
+
+DAEMON="tee-supplicant"
+PIDFILE="/var/run/$DAEMON.pid"
+
+DAEMON_ARGS="-d /dev/teepriv0"
+
+start_service() {
+	printf 'Starting %s: ' "$DAEMON"
+	start-stop-daemon -S -q -p "$PIDFILE" -x "/usr/sbin/$DAEMON" \
+		-- $DAEMON_ARGS
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+#	return "$status"
+}
+
+stop_service() {
+	printf 'Stopping %s: ' "$DAEMON"
+	start-stop-daemon -K -q -p "$PIDFILE"
+	status=$?
+	if [ "$status" -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+#	return "$status"
+}
+
+restart() {
+	stop
+	sleep 1
+	start
+}

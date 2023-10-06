@@ -41,7 +41,9 @@ UBOOT_TARGETS:=generic
 $(info PROFILE = $(PROFILE))
 
 define Build/InstallDev
-	echo UBOOT_CONFIG=$(UBOOT_CONFIG) >> /tmp/openwrt.env
+	touch /tmp/openwrt.boot
+	sed -i /^UBOOT_/d /tmp/openwrt.boot
+	echo UBOOT_CONFIG=$(UBOOT_CONFIG) >> /tmp/openwrt.boot
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
 	$(foreach img,$(UBOOT_IMAGE), \
 		$(CP) $(PKG_BUILD_DIR)/$(img) $(STAGING_DIR_IMAGE)/$(img); \

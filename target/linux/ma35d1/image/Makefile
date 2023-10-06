@@ -19,9 +19,7 @@ include $(SUBTARGET).mk
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
 define Build/copy-dtb
-	touch /tmp/openwrt.env
-	sed -i 1,/\^$$/d /tmp/openwrt.env
-	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
+	echo DEVICE_NAME=$(DEVICE_NAME) > /tmp/openwrt.env
 	$(CP) $(KDIR)/$(DEVICE_DTS_CONFIG).dtb $(STAGING_DIR_IMAGE)/Image.dtb
 endef
 
@@ -49,6 +47,7 @@ ifeq ($(1),squashfs)
 	echo LINUX_DIR=$(LINUX_DIR) >> /tmp/openwrt.env
 	echo BIN_DIR=$(BIN_DIR) >> /tmp/openwrt.env
 	echo TOOLCHAIN_DIR=$(TOOLCHAIN_DIR) >> /tmp/openwrt.env
+	echo TARGET_CROSS=\"$(TARGET_CROSS)\" >> /tmp/openwrt.env
 	echo TARGET_CXXFLAGS=\"$(TARGET_CXXFLAGS)\" >> /tmp/openwrt.env
 	echo TARGET_CFLAGS=\"$(TARGET_CFLAGS)\" >> /tmp/openwrt.env
 	echo TARGET_CPPFLAGS=\"$(TARGET_CPPFLAGS)\" >> /tmp/openwrt.env
@@ -63,9 +62,10 @@ ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
 	echo CONFIG_MA35D1_AES_KEY=$(CONFIG_MA35D1_AES_KEY) >> /tmp/openwrt.env
 	echo CONFIG_MA35D1_ECDSA_KEY=$(CONFIG_MA35D1_ECDSA_KEY) >> /tmp/openwrt.env
 endif
-	echo >> /tmp/openwrt.env
-	env - BASH_ENV=/tmp/openwrt.env /usr/bin/bash $(TOPDIR)/Nuvoton/script/pack-image.sh
-	env - BASH_ENV=/tmp/openwrt.env /usr/bin/bash $(TOPDIR)/Nuvoton/script/env-setup.sh
+	touch /tmp/openwrt.boot
+	cat /tmp/openwrt.boot >> /tmp/openwrt.env
+	env - BASH_ENV=/tmp/openwrt.env /bin/bash $(TOPDIR)/Nuvoton/script/pack-image.sh
+	env - BASH_ENV=/tmp/openwrt.env /bin/bash $(TOPDIR)/Nuvoton/script/env-setup.sh
 endif
 endef
 

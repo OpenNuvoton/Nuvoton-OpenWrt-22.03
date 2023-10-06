@@ -75,13 +75,14 @@ else
 endif
 
 define Package/trusted-firmware-a/install
-	echo TFA_DTB_NAME=$(subst cpu800,$(CPU),$(TFA_DTB_NAME)) >> /tmp/openwrt.env
+	touch /tmp/openwrt.boot
+	sed -i /^TFA_/d /tmp/openwrt.boot
+	echo TFA_DTB_NAME=$(subst cpu800,$(CPU),$(TFA_DTB_NAME)) >> /tmp/openwrt.boot
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/bl2.bin $(STAGING_DIR_IMAGE)/bl2.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/bl31.bin $(STAGING_DIR_IMAGE)/bl31.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/ma35d1/release/fdts/$(subst cpu800,$(CPU),$(TFA_DTB_NAME)).dtb $(STAGING_DIR_IMAGE)/bl2.dtb
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/tools/fiptool/fiptool $(STAGING_DIR_IMAGE)/fiptool
-	chmod +x $(STAGING_DIR_IMAGE)/fiptool
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/tools/fiptool/fiptool $(STAGING_DIR_IMAGE)/fiptool
 endef
 
 $(eval $(call BuildPackage/Trusted-Firmware-A))
