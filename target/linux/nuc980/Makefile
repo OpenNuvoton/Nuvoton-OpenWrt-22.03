@@ -17,7 +17,7 @@ endef
 
 include $(INCLUDE_DIR)/target.mk
 
-KERNELNAME:=Image dtbs
+KERNELNAME:=zImage dtbs
 
 DEFAULT_PACKAGES += libopenssl
 

@@ -69,7 +69,7 @@ define Device/Default
   PROFILES := Default
   KERNEL_INSTALL := 1
   KERNEL_SUFFIX := -uImage
-  KERNEL_NAME := Image
+  KERNEL_NAME := zImage
   KERNEL_PREFIX := openwrt-$$(BOARD)-$$(SUBTARGET)
   KERNEL := kernel-bin | uImage none
   FILESYSTEMS := squashfs
