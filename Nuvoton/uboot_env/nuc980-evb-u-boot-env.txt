@@ -3,6 +3,6 @@ bootdelay=1
 stderr=serial
 stdin=serial
 stdout=serial
-loadkernel=nand read 0x07fc0 0x200000 0xC00000
+loadkernel=nand read 0x07fc0 0x200000 0x600000
 loaddtb=nand read 0x1400000 0x180000 0x20000
 bootcmd=run loadkernel;run loaddtb;bootm 0x7fc0 - 0x1400000

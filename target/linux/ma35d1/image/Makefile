@@ -86,7 +86,7 @@ define Device/Default
   KERNEL_INSTALL := 1
   KERNEL_SUFFIX := -uImage
   KERNEL_NAME := Image
-  KERNEL := kernel-bin | uImage none
+  KERNEL := kernel-bin | gzip | uImage gzip
 endef
 
 ifeq ($(SUBTARGET),som)
