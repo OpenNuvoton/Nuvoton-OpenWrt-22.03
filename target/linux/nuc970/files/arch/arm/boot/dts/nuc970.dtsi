@@ -1,0 +1,1597 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Device Tree Source for NUC970
+ *
+ * Copyright (C) 2018 Nuvoton Technology Corp.
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "Nuvoton NUC970 family SoC";
+	compatible = "nuvoton,nuc970";
+	#address-cells = <1>;
+	#size-cells = <1>;
+	interrupt-parent = <&aic>;
+
+	cpus {
+		#address-cells = <0>;
+		#size-cells = <0>;
+
+		cpu {
+			compatible = "arm,arm926ej-s";
+			device_type = "cpu";
+		};
+	};
+
+	apb {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		aic: interrupt-controller@b8002000 {
+			compatible = "nuvoton,nuc970-aic";
+			reg = <0xb8002000 0x200>;
+			#interrupt-cells = <3>;
+			interrupt-controller;
+		};
+
+		pinctrl: pinctrl@b0000000 {
+			compatible = "nuvoton,nuc970-pinctrl";
+			status = "okay";
+
+			uart0 {
+				pinctrl_uart0_PE: uart0-PE {
+					nuvoton,pins =
+						<4 0 9 0
+						 4 1 9 0>;
+				};
+			};
+
+			uart1 {
+				pinctrl_uart1_PE: uart1-PE {
+					nuvoton,pins =
+						<4 2 9 0
+						 4 3 9 0>;
+				};
+
+				pinctrl_uart1_fc_PE: uart1-fc-PE {
+					nuvoton,pins =
+						<4 2 9 0
+						 4 3 9 0
+						 4 4 9 0
+						 4 5 9 0>;
+				};
+
+				pinctrl_uart1_ff_PE: uart1-ff-PE {
+					nuvoton,pins =
+						<4 2 9 0
+						 4 3 9 0
+						 4 4 9 0
+						 4 5 9 0
+						 4 6 9 0
+						 4 7 9 0
+						 4 8 9 0
+						 4 9 9 0>;
+				};
+
+				pinctrl_uart1_PH: uart1-PH {
+					nuvoton,pins =
+						<7 4 9 0
+						 7 5 9 0>;
+				};
+
+				pinctrl_uart1_fc_PH: uart1-fc-PH {
+					nuvoton,pins =
+						<7 4 9 0
+						 7 5 9 0
+						 7 6 9 0
+						 7 7 9 0>;
+				};
+
+				pinctrl_uart1_PI: uart1-PI {
+					nuvoton,pins =
+						<8 5 9 0
+						 8 6 9 0>;
+				};
+
+				pinctrl_uart1_fc_PI: uart1-fc-PI {
+					nuvoton,pins =
+						<8 5 9 0
+						 8 6 9 0
+						 8 7 9 0
+						 8 8 9 0>;
+				};
+			};
+
+			uart2 {
+				pinctrl_uart2: uart2 {
+					nuvoton,pins =
+						<5 0xb 9 0
+						 5 0xc 9 0>;
+				};
+
+				pinctrl_uart2_fc: uart2-fc {
+					nuvoton,pins =
+						<5 0xb 9 0
+						 5 0xc 9 0
+						 5 0xd 9 0
+						 5 0xe 9 0>;
+				};
+			};
+
+			uart3 {
+				pinctrl_uart3_PE: uart3-PE {
+					nuvoton,pins =
+						<4 0xc 0xa 0
+						 4 0xd 0xa 0>;
+				};
+			};
+
+			uart4 {
+				pinctrl_uart4_PC: uart4-PC {
+					nuvoton,pins =
+						<2 0xa 9 0
+						 2 0xb 9 0>;
+				};
+
+				pinctrl_uart4_fc_PC: uart4-fc-PC {
+					nuvoton,pins =
+						<2 0xa 9 0
+						 2 0xb 9 0
+						 2 0xc 9 0
+						 2 0xd 9 0>;
+				};
+
+				pinctrl_uart4_PH: uart4-PH {
+					nuvoton,pins =
+						<7 8 9 0
+						 7 9 9 0>;
+				};
+
+				pinctrl_uart4_fc_PH: uart4-fc-PH {
+					nuvoton,pins =
+						<7 8 9 0
+						 7 9 9 0
+						 7 0xa 9 0
+						 7 0xb 9 0>;
+				};
+
+				pinctrl_uart4_PI: uart4-PI {
+					nuvoton,pins =
+						<8 9 9 0
+						 8 0xa 9 0>;
+				};
+			};
+
+			uart5 {
+				pinctrl_uart5_PB: uart5-PB {
+					nuvoton,pins =
+						<1 0 9 0
+						 1 1 9 0>;
+				};
+			};
+
+			uart6 {
+				pinctrl_uart6_PB: uart6-PB {
+					nuvoton,pins =
+						<1 2 9 0
+						 1 3 9 0>;
+				};
+
+				pinctrl_uart6_fc_PB: uart6-fc-PB {
+					nuvoton,pins =
+						<1 2 9 0
+						 1 3 9 0
+						 1 4 9 0
+						 1 5 9 0>;
+				};
+
+				pinctrl_uart6_PG: uart6-PG {
+					nuvoton,pins =
+						<6 0xb 9 0
+						 6 0xc 9 0>;
+				};
+
+				pinctrl_uart6_fc_PG: uart6-fc-PG {
+					nuvoton,pins =
+						<6 0xb 9 0
+						 6 0xc 9 0
+						 6 0xd 9 0
+						 6 0xe 9 0>;
+				};
+			};
+
+			uart7 {
+				pinctrl_uart7_PG: uart7-PG {
+					nuvoton,pins =
+						<6 4 9 0
+						 6 5 9 0>;
+				};
+
+				pinctrl_uart7_PI: uart7-PI {
+					nuvoton,pins =
+						<8 1 9 0
+						 8 2 9 0>;
+				};
+			};
+
+			uart8 {
+				pinctrl_uart8_PE: uart8-PE {
+					nuvoton,pins =
+						<4 0xa 9 0
+						 4 0xb 9 0>;
+				};
+
+				pinctrl_uart8_fc_PE: uart8-fc-PE {
+					nuvoton,pins =
+						<4 0xa 9 0
+						 4 0xb 9 0
+						 4 0xc 9 0
+						 4 0xd 9 0>;
+				};
+
+				pinctrl_uart8_PH: uart8-PH {
+					nuvoton,pins =
+						<7 0xc 9 0
+						 7 0xd 9 0>;
+				};
+
+				pinctrl_uart8_fc_PH: uart8-fc-PH {
+					nuvoton,pins =
+						<7 0xc 9 0
+						 7 0xd 9 0
+						 7 0xe 9 0
+						 7 0xf 9 0>;
+				};
+
+				pinctrl_uart8_PI: uart8-PI {
+					nuvoton,pins =
+						<8 0xc 9 0
+						 8 0xd 9 0>;
+				};
+
+				pinctrl_uart8_fc_PI: uart8-fc-PI {
+					nuvoton,pins =
+						<8 0xc 9 0
+						 8 0xd 9 0
+						 8 0xe 9 0
+						 8 0xf 9 0>;
+				};
+			};
+
+			uart9 {
+				pinctrl_uart9_PD0: uart9-PD0 {
+					nuvoton,pins =
+						<3 0xb 9 0
+						 3 0xc 9 0>;
+				};
+
+				pinctrl_uart9_PD1: uart9-PD1 {
+					nuvoton,pins =
+						<3 0xe 9 0
+						 3 0xf 9 0>;
+				};
+
+				pinctrl_uart9_PH: uart9-PH {
+					nuvoton,pins =
+						<7 2 9 0
+						 7 3 9 0>;
+				};
+			};
+
+			uart10 {
+				pinctrl_uart10_PB0: uart10-PB0 {
+					nuvoton,pins =
+						<1 0xa 9 0
+						 1 0xb 9 0>;
+				};
+
+				pinctrl_uart10_PB1: uart10-PB1 {
+					nuvoton,pins =
+						<1 0xc 9 0
+						 1 0xd 9 0>;
+				};
+
+				pinctrl_uart10_fc_PB1: uart10-fc-PB1 {
+					nuvoton,pins =
+						<1 0xc 9 0
+						 1 0xd 9 0
+						 1 0xe 9 0
+						 1 0xf 9 0>;
+				};
+
+				pinctrl_uart10_PC: uart10-PC {
+					nuvoton,pins =
+						<2 6 9 0
+						 2 7 9 0>;
+				};
+
+				pinctrl_uart10_fc_PC: uart10-fc-PC {
+					nuvoton,pins =
+						<2 6 9 0
+						 2 7 9 0
+						 2 8 9 0
+						 2 9 9 0>;
+				};
+			};
+
+			can0 {
+				pinctrl_can0_PB: can0-PB {
+					nuvoton,pins =
+						<1 0xa 0xc 0
+						 1 0xb 0xc 0>;
+				};
+
+				pinctrl_can0_PH: can0-PH {
+					nuvoton,pins =
+						<7 2 0xc 0
+						 7 3 0xc 0>;
+				};
+
+				pinctrl_can0_PI: can0-PI {
+					nuvoton,pins =
+						<8 3 0xc 0
+						 8 4 0xc 0>;
+				};
+			};
+
+			can1 {
+				pinctrl_can1_PH: can1-PH {
+					nuvoton,pins =
+						<7 0xe 0xc 0
+						 7 0xf 0xc 0>;
+				};
+			};
+
+			kpi {
+				pinctrl_kpi_PH_4x4: kpi-PH-4x4 {
+					nuvoton,pins =
+						<7 4 0 0
+						 7 5 0 0
+						 7 6 0 0
+						 7 7 0 0
+						 7 8 0 0
+						 7 9 0 0
+						 7 0xa 0 0
+						 7 0xb 0 0>;
+				};
+
+				pinctrl_kpi_PH_4x8: kpi-PH-4x8 {
+					nuvoton,pins =
+						<7 4 0 0
+						 7 5 0 0
+						 7 6 0 0
+						 7 7 0 0
+						 7 8 0 0
+						 7 9 0 0
+						 7 0xa 0 0
+						 7 0xb 0 0
+						 7 0xc 0 0
+						 7 0xd 0 0
+						 7 0xe 0 0
+						 7 0xf 0 0>;
+				};
+			};
+
+			usbh {
+				pinctrl_usbh_ppwr_pe: usbh-ppwr-pe {
+					nuvoton,pins =
+						<4 0xe 7 0
+						 4 0xf 7 0
+						 7 1 7 0>;
+				};
+
+				pinctrl_usbh_ppwr_pf: usbh-ppwr-pf {
+					nuvoton,pins =
+						<5 0xa 7 0
+						 7 1 7 0>;
+				};
+
+				pinctrl_usbh_ppwr_pc: usbh-ppwr-oc{
+					nuvoton,pins =
+						<7 1 7 0>;
+				};
+			};
+
+			fmi {
+				pinctrl_emmc_pc: emmc-PC {
+					nuvoton,pins =
+						<2 0 6 0
+						 2 1 6 0
+						 2 2 6 0
+						 2 3 6 0
+						 2 4 6 0
+						 2 5 6 0>;
+				};
+
+				pinctrl_emmc_pi: emmc-PI {
+					nuvoton,pins =
+						<8 5 6 0
+						 8 6 6 0
+						 8 7 6 0
+						 8 8 6 0
+						 8 9 6 0
+						 8 0xa 6 0>;
+				};
+
+				pinctrl_nand_pc: nand-PC {
+					nuvoton,pins =
+						<2 0 5 0
+						 2 1 5 0
+						 2 2 5 0
+						 2 3 5 0
+						 2 4 5 0
+						 2 5 5 0
+						 2 6 5 0
+						 2 7 5 0
+						 2 8 5 0
+						 2 9 5 0
+						 2 0xa 5 0
+						 2 0xb 5 0
+						 2 0xc 5 0
+						 2 0xd 5 0
+						 2 0xe 5 0>;
+				};
+
+				pinctrl_nand_pi: nand-PI {
+					nuvoton,pins =
+						<8 1 5 0
+						 8 2 5 0
+						 8 3 5 0
+						 8 4 5 0
+						 8 5 5 0
+						 8 6 5 0
+						 8 7 5 0
+						 8 8 5 0
+						 8 9 5 0
+						 8 0xa 5 0
+						 8 0xb 5 0
+						 8 0xc 5 0
+						 8 0xd 5 0
+						 8 0xe 5 0
+						 8 0xf 5 0>;
+				};
+			};
+
+			sdh {
+				pinctrl_sd0: sd0 {
+					nuvoton,pins =
+						<3 0 6 0
+						 3 1 6 0
+						 3 2 6 0
+						 3 3 6 0
+						 3 4 6 0
+						 3 5 6 0
+						 3 6 6 0
+						 3 7 6 0>;
+				};
+
+				pinctrl_sd1_pi: sd1-PI {
+					nuvoton,pins =
+						<8 5 4 0
+						 8 6 4 0
+						 8 7 4 0
+						 8 8 4 0
+						 8 9 4 0
+						 8 0xa 4 0
+						 8 0xc 4 0
+						 8 0xd 4 0>;
+				};
+
+				pinctrl_sd1_pe: sd1-PE {
+					nuvoton,pins =
+						<4 2 6 0
+						 4 3 6 0
+						 4 4 6 0
+						 4 5 6 0
+						 4 6 6 0
+						 4 7 6 0
+						 4 8 6 0
+						 4 9 6 0>;
+				};
+
+				pinctrl_sd1_ph: sd1-PH {
+					nuvoton,pins =
+						<7 6 6 0
+						 7 7 6 0
+						 7 8 6 0
+						 7 9 6 0
+						 7 0xa 6 0
+						 7 0xb 6 0
+						 7 0xc 6 0
+						 7 0xd 6 0>;
+				};
+			};
+
+			usbd {
+				pinctrl_usbd: usbd-vbusvld{
+					nuvoton,pins =
+						<7 0 7 0>;
+				};
+			};
+
+			emac0 {
+				pinctrl_emac0: emac0 {
+					nuvoton,pins =
+						<5 0 1 0
+						 5 1 1 0
+						 5 2 1 0
+						 5 3 1 0
+						 5 4 1 0
+						 5 5 1 0
+						 5 6 1 0
+						 5 7 1 0
+						 5 8 1 0
+						 5 9 1 0>;
+				};
+			};
+
+			emac1 {
+				pinctrl_emac1: emac1 {
+					nuvoton,pins =
+						<4 2 1 0
+						 4 3 1 0
+						 4 4 1 0
+						 4 5 1 0
+						 4 6 1 0
+						 4 7 1 0
+						 4 8 1 0
+						 4 9 1 0
+						 4 0xa 1 0
+						 4 0xb 1 0>;
+				};
+			};
+
+			spi0 {
+				pinctrl_spi0: spi0 {
+					nuvoton,pins =
+						<1 6 0xb 0
+						 1 7 0xb 0
+						 1 8 0xb 0
+						 1 9 0xb 0
+						 1 0xa 0xb 0
+						 1 0xb 0xb 0 >;
+				};
+			};
+
+			spi1 {
+				pinctrl_spi1: spi1 {
+					nuvoton,pins =
+						<1 0xc 0xb 0
+						 1 0xd 0xb 0
+						 1 0xe 0xb 0
+						 1 0xf 0xb 0
+						 6 4 0xb 0
+						 6 5 0xb 0
+						 1 1 0xb 0 >;
+				};
+			};
+
+			i2c0 {
+				pinctrl_i2c0: i2c0 {
+					nuvoton,pins =
+						<6 0 8 0
+						 6 1 8 0 >;
+				};
+			};
+
+			i2c1 {
+				pinctrl_i2c1_PB: i2c1-PB {
+					nuvoton,pins =
+						<1 0 8 0
+						 1 1 8 0 >;
+				};
+
+				pinctrl_i2c1_PG: i2c1-PG {
+					nuvoton,pins =
+						<6 2 8 0
+						 6 3 8 0 >;
+				};
+
+				pinctrl_i2c1_PH: i2c1-PH {
+					nuvoton,pins =
+						<7 2 8 0
+						 7 3 8 0 >;
+				};
+
+				pinctrl_i2c1_PI: i2c1-PI {
+					nuvoton,pins =
+						<8 3 8 0
+						 8 4 8 0 >;
+				};
+			};
+
+			i2s {
+				pinctrl_i2s: i2s {
+					nuvoton,pins =
+						<6 0xa 8 0
+						 6 0xb 8 0
+						 6 0xc 8 0
+						 6 0xd 8 0
+						 6 0xe 8 0 >;
+				};
+			};
+
+			lcd {
+				pinctrl_lcd_16bit: lcd-16bit {
+					nuvoton,pins =
+						<0 0 2 0
+						 0 1 2 0
+						 0 2 2 0
+						 0 3 2 0
+						 0 4 2 0
+						 0 5 2 0
+						 0 6 2 0
+						 0 7 2 0
+						 0 8 2 0
+						 0 9 2 0
+						 0 0xa 2 0
+						 0 0xb 2 0
+						 0 0xc 2 0
+						 0 0xd 2 0
+						 0 0xe 2 0
+						 0 0xf 2 0
+						 6 6 2 0
+						 6 7 2 0
+						 6 8 2 0
+						 6 9 2 0 >;
+				};
+
+				pinctrl_lcd_18bit: lcd-18bit {
+					nuvoton,pins =
+						<0 0 2 0
+						 0 1 2 0
+						 0 2 2 0
+						 0 3 2 0
+						 0 4 2 0
+						 0 5 2 0
+						 0 6 2 0
+						 0 7 2 0
+						 0 8 2 0
+						 0 9 2 0
+						 0 0xa 2 0
+						 0 0xb 2 0
+						 0 0xc 2 0
+						 0 0xd 2 0
+						 0 0xe 2 0
+						 0 0xf 2 0
+						 6 6 2 0
+						 6 7 2 0
+						 6 8 2 0
+						 6 9 2 0
+						 3 8 2 0
+						 3 9 2 0 >;
+				};
+
+				pinctrl_lcd_24bit: lcd-24bit {
+					nuvoton,pins =
+						<0 0 2 0
+						 0 1 2 0
+						 0 2 2 0
+						 0 3 2 0
+						 0 4 2 0
+						 0 5 2 0
+						 0 6 2 0
+						 0 7 2 0
+						 0 8 2 0
+						 0 9 2 0
+						 0 0xa 2 0
+						 0 0xb 2 0
+						 0 0xc 2 0
+						 0 0xd 2 0
+						 0 0xe 2 0
+						 0 0xf 2 0
+						 6 6 2 0
+						 6 7 2 0
+						 6 8 2 0
+						 6 9 2 0
+						 3 8 2 0
+						 3 9 2 0
+						 3 0xa 2 0
+						 3 0xb 2 0
+						 3 0xc 2 0
+						 3 0xd 2 0
+						 3 0xe 2 0
+						 3 0xf 2 0 >;
+				};
+			};
+
+			gpio {
+				pinctrl_gpio: gpio-eint {
+					nuvoton,pins =
+						<
+						 7 0x0 0xF 0   /* eint0_H0 */
+						 //5 0xB 0xF 0   /* eint0_F11 */
+
+						 //7 0x1 0xF 0   /* eint1_H1 */
+						 //5 0xc 0xF 0   /* eint1_F12 */
+
+						 //7 0x2 0xF 0   /* eint2_H2 */
+						 //5 0xD 0xF 0   /* eint2_F13 */
+
+						 //7 0x3 0xF 0   /* eint3_H3 */
+						 //5 0xE 0xF 0   /* eint3_F14 */
+
+						 //7 0x4 0xF 0   /* eint4_H4 */
+						 //5 0xF 0xF 0   /* eint4_F15 */
+
+						 //7 0x5 0xF 0   /* eint5_H5 */
+						 //6 0x5 0xF 0   /* eint5_G5 */
+
+						 //7 0x6 0xF 0   /* eint6_H6 */
+						 //8 0x1 0xF 0   /* eint6_I1 */
+
+						 //7 0x7 0xF 0   /* eint7_H7 */
+						 //8 0x2 0xF 0   /* eint7_I2 */
+						 >;
+				};
+			};
+
+			cap {
+				pinctrl_cap: cap {
+					nuvoton,pins =
+						<8 0x3 0x3 0
+						 8 0x4 0x3 0
+						 8 0x5 0x3 0
+						 8 0x6 0x3 0
+						 8 0x8 0x3 0
+						 8 0x9 0x3 0
+						 8 0xa 0x3 0
+						 8 0xb 0x3 0
+						 8 0xc 0x3 0
+						 8 0xd 0x3 0
+						 8 0xe 0x3 0
+						 8 0xf 0x3 0
+						>;
+				};
+			};
+
+			ebi {
+				pinctrl_ebi: ebi {
+					nuvoton,pins =
+					<
+						/* nWAIT, nOE, nWE */
+						 3 0xd 0xe 0
+						 3 0xe 0xe 0
+						 3 0xf 0xe 0
+						/* address0~10 */
+						 7 0x4 0xe 0
+						 7 0x5 0xe 0
+						 7 0x6 0xe 0
+						 7 0x7 0xe 0
+						 7 0x8 0xe 0
+						 7 0x9 0xe 0
+						 7 0xa 0xe 0
+						 7 0xb 0xe 0
+						 7 0xc 0xe 0
+						 7 0xd 0xe 0
+						/* data0~7 */
+						 8 0x0 0xe 0
+						 8 0x1 0xe 0
+						 8 0x2 0xe 0
+						 8 0x3 0xe 0
+						 8 0x4 0xe 0
+						 8 0x5 0xe 0
+						 8 0x6 0xe 0
+						 8 0x7 0xe 0
+
+						 3 0x8 0xe 0 /*CS0 */
+						 //3 0x9 0xe 0 /*CS1 */
+						 //3 0xa 0xe 0 /*CS2 */
+						 //3 0xb 0xe 0 /*CS3 */
+						 //3 0xc 0xe 0 /*CS4 */
+						>;
+				};
+			};
+
+			etimer0 {
+				pinctrl_etimer0: etimer0 {
+					nuvoton,pins =
+						<2 6 0xd 0
+						 2 7 0xd 0
+						 //1 2 0xf 0
+						 //1 3 0xf 0
+						>;
+				};
+			};
+
+			etimer1 {
+				pinctrl_etimer1: etimer1 {
+					nuvoton,pins =
+						<2 8 0xd 0
+						 2 9 0xd 0
+						 //1 0 0xd 0
+						 //1 1 0xd 0
+						>;
+				};
+			};
+
+			etimer2 {
+				pinctrl_etimer2: etimer2 {
+					nuvoton,pins =
+						<2 0xa 0xd 0
+						 2 0xb 0xd 0
+						 //5 0xb 0xd 0
+						 //5 0xc 0xd 0
+						>;
+				};
+			};
+
+			etimer3 {
+				pinctrl_etimer3: etimer3 {
+					nuvoton,pins =
+						<2 0xc 0xd 0
+						 2 0xd 0xd 0
+						 //5 0xd 0xd 0
+						 //5 0xe 0xd 0
+						>;
+				};
+			};
+
+			pwm0 {
+				pinctrl_pwm0_PA: pwm0-PA {
+					nuvoton,pins =
+						<0 0xc 0xd 0>;
+				};
+
+				pinctrl_pwm0_PB: pwm0-PB {
+					nuvoton,pins =
+						<1 2 0xd 0>;
+				};
+
+				pinctrl_pwm0_PC: pwm0-PC {
+					nuvoton,pins =
+						<2 0xe 0xd 0>;
+				};
+
+				pinctrl_pwm0_PD: pwm0-PD {
+					nuvoton,pins =
+						<3 0xc 0xd 0>;
+				};
+
+			};
+
+			pwm1 {
+				pinctrl_pwm1_PA: pwm1-PA {
+					nuvoton,pins =
+						<0 0xd 0xd 0>;
+				};
+
+				pinctrl_pwm1_PB: pwm0-PB {
+					nuvoton,pins =
+						<1 3 0xd 0>;
+				};
+
+				pinctrl_pwm1_PD: pwm0-PD {
+					nuvoton,pins =
+						<3 0xd 0xd 0>;
+				};
+
+			};
+
+			pwm2 {
+				pinctrl_pwm2_PA: pwm2-PA {
+					nuvoton,pins =
+						<0 0xe 0xd 0>;
+				};
+
+				pinctrl_pwm2_PH: pwm2-PH {
+					nuvoton,pins =
+						<7 2 0xd 0>;
+				};
+
+				pinctrl_pwm2_PD: pwm2-PD {
+					nuvoton,pins =
+						<3 0xe 0xd 0>;
+				};
+
+			};
+
+			pwm3 {
+				pinctrl_pwm3_PA: pwm3-PA {
+					nuvoton,pins =
+						<0 0xf 0xd 0>;
+				};
+
+				pinctrl_pwm3_PH: pwm3-PH {
+					nuvoton,pins =
+						<7 3 0xd 0>;
+				};
+
+				pinctrl_pwm3_PD: pwm3-PD {
+					nuvoton,pins =
+						<3 0xf 0xd 0>;
+				};
+
+			};
+
+			sc0 {
+				pinctrl_sc0_PG: sc0-PG {
+					nuvoton,pins =
+						<6 0xA 0xA 0
+						 6 0xB 0xA 0
+						 6 0xC 0xA 0
+						 6 0xD 0xA 0
+						 6 0xE 0xA 0>;
+				};
+				pinctrl_sc0_PI: sc0-PI {
+					nuvoton,pins =
+						<8 0xB 0xA 0
+						 8 0xC 0xA 0
+						 8 0xD 0xA 0
+						 8 0xE 0xA 0
+						 8 0xF 0xA 0>;
+				};
+			};
+			scuart0 {
+				pinctrl_scuart0_PG: scuart0-PG {
+					nuvoton,pins =
+						<6 0xB 0xA 0
+						 6 0xC 0xA 0>;
+				};
+				pinctrl_scuart0_PI: scuart0-PI {
+					nuvoton,pins =
+						<8 0xC 0xA 0
+						 8 0xD 0xA 0>;
+				};
+			};
+			sc1 {
+				pinctrl_sc1_PI: sc1-PI {
+					nuvoton,pins =
+						<8 6 0xA 0
+						 8 7 0xA 0
+						 8 8 0xA 0
+						 8 9 0xA 0
+						 8 0xA 0xA 0>;
+				};
+			};
+			scuart1 {
+				pinctrl_scuart1_PI: scuart1-PI {
+					nuvoton,pins =
+						<8 7 0xA 0
+						 8 8 0xA 0>;
+				};
+			};
+
+		};  /* end of pinctrl */
+
+		uart0: serial@b8000000 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000000 0x100>;
+			interrupts = <36 4 1>;
+			port-number = <0>;
+			map-addr = <0xf8000000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart0_PE>;
+			status = "okay";
+		};
+
+		uart1: serial@b8000100 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000100 0x100>;
+			interrupts = <37 4 1>;
+			port-number = <1>;
+			map-addr = <0xf8000100>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart1_PE>;
+			status = "disabled";
+		};
+
+		uart2: serial@b8000200 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000200 0x100>;
+			interrupts = <38 4 1>;
+			port-number = <2>;
+			map-addr = <0xf8000200>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart2_fc>;
+			status = "disabled";
+		};
+
+		uart3: serial@b8000300 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000300 0x100>;
+			interrupts = <43 4 1>;
+			port-number = <3>;
+			map-addr = <0xf8000300>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart3_PE>;
+			status = "disabled";
+		};
+
+		uart4: serial@b8000400 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000400 0x100>;
+			interrupts = <39 4 1>;
+			port-number = <4>;
+			map-addr = <0xf8000400>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart4_fc_PC>;
+			status = "disabled";
+		};
+
+		uart5: serial@b8000500 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000500 0x100>;
+			interrupts = <44 4 1>;
+			port-number = <5>;
+			map-addr = <0xf8000500>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart5_PB>;
+			status = "disabled";
+		};
+
+		uart6: serial@b8000600 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000600 0x100>;
+			interrupts = <40 4 1>;
+			port-number = <6>;
+			map-addr = <0xf8000600>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart6_PB>;
+			status = "disabled";
+		};
+
+		uart7: serial@b8000700 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000700 0x100>;
+			interrupts = <45 4 1>;
+			port-number = <7>;
+			map-addr = <0xf8000700>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart7_PG>;
+			status = "disabled";
+		};
+
+		uart8: serial@b8000800 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000800 0x100>;
+			interrupts = <41 4 1>;
+			port-number = <8>;
+			map-addr = <0xf8000800>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart8_PE>;
+			status = "disabled";
+		};
+
+		uart9: serial@b8000900 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000900 0x100>;
+			interrupts = <46 4 1>;
+			port-number = <9>;
+			map-addr = <0xf8000900>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart9_PD0>;
+			status = "disabled";
+		};
+
+		uart10: serial@b8000a00 {
+			compatible = "nuvoton,nuc970-uart";
+			reg = <0xb8000a00 0x100>;
+			interrupts = <42 4 1>;
+			port-number = <10>;
+			map-addr = <0xf8000a00>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_uart10_PB0>;
+			status = "disabled";
+		};
+
+		can0: can@b800b000 {
+			compatible = "nuvoton,c_can";
+			reg = <0xb800b000 0x400>;
+			interrupts = <58 4 1>;
+			map-addr = <0xf800b000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_can0_PH>;
+			status = "disabled";
+		};
+
+		can1: can@b800b400 {
+			compatible = "nuvoton,c_can";
+			reg = <0xb800b400 0x400>;
+			interrupts = <59 4 1>;
+			map-addr = <0xf800b000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_can1_PH>;
+			status = "disabled";
+		};
+
+		kpi: kpi@b8008000 {
+			compatible = "nuvoton,nuc970-kpi";
+			row = <4>; // <row number>
+			col = <4>; // <col number>
+			status = "disabled";
+		};
+
+		rtc: rtc@b8004000 {
+			compatible = "nuvoton,nuc970-rtc";
+			reg = <0xb8004000 0x100>;
+			interrupts = <15 4 1>;
+			map-addr = <0xf8004000>;
+			wakeup = <0>;
+			status = "disabled";
+		};
+
+		jpeg: jpeg@b000a000 {
+			compatible = "nuvoton,nuc970-jpeg";
+			reg = <0xb000a000 0x200>;
+			interrupts = <33 4 1>;
+			map-addr = <0xf000a000>;
+			status = "disabled";
+		};
+
+		wdt: wdt@b8001800 {
+			compatible = "nuvoton,nuc970-wdt";
+			reg = <0xb8001800 0x100>;
+			interrupts = <1 4 1>;
+			map-addr = <0xf8001800>;
+			status = "disabled";
+		};
+
+		wwdt: wdt@b8001900 {
+			compatible = "nuvoton,nuc970-wwdt";
+			reg = <0xb8001900 0x100>;
+			interrupts = <2 4 1>;
+			map-addr = <0xf8001900>;
+			status = "disabled";
+		};
+
+		gpio: gpio@b8003000 {
+			compatible = "nuvoton,nuc970-gpio";
+			reg = <0xb8003000 0x100>;
+			interrupts = <57 4 1>;
+			port-number = <0>;
+			map-addr = <0xf8003000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_gpio>;
+			#gpio-cells = <2>;
+			gpio-controller;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+
+			/* eintX-config : */
+			/* 1st: 0(Disable)/1(Enable) */
+			/* 2nd: 0(PH0)/1(PF11) */
+			/* 3rd: 0(both)/1(rasing)/2(falling)/3(heigh level)/4(low level) */
+			eint0-config = <1 0 0>;
+			eint1-config = <1 0 0>;
+			eint2-config = <1 0 0>;
+			eint3-config = <1 0 0>;
+			eint4-config = <1 0 0>;
+			eint5-config = <1 0 0>;
+			eint6-config = <1 0 0>;
+			eint7-config = <1 0 0>;
+			status = "disabled";
+		};
+
+		adc: adc@b800a000 {
+			compatible = "nuvoton,nuc970-adc";
+			reg = <0xb800a000 0x100>;
+			interrupts = <18 4 1>;
+			map-addr = <0xf800a000>;
+			clock-rate = <200000>;
+			enable-ts;
+			ts-pressure-threshold = <20>; /* z-axis threshold */
+			keypad-status = "disabled";
+			touch-status = "disabled";
+			status = "disabled";
+		};
+
+		nadc: nadc@b800a000 {
+			compatible = "nuvoton,nuc970-nadc";
+			reg = <0xb800a000 0x100>;
+			interrupts = <18 4 1>;
+			map-addr = <0xf800a000>;
+			status = "disabled";
+		};
+
+		spi0: spi@b8006200 {
+			compatible = "nuvoton,nuc970-spi0";
+			reg = <0xb8006200 0x100>;
+			interrupts = <51 4 1>;
+			map-addr = <0xf8006200>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_spi0>;
+			status = "okay";
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			num_cs  = <2>;
+			lsb     = <0>;
+			txneg   = <1>;
+			rxneg   = <0>;
+			divider = <4>;
+			sleep   = <0>;
+			txnum   = <0>;
+			txbitlen = <8>;
+			bus_num = <0>;
+			quad = <0>;
+
+			flash: flash@0 {
+				compatible = "winbond,w25q128";
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0>;
+				spi-max-frequency = <12000000>;
+
+				partition@0 {
+					label = "uboot";
+					reg = <0x00000000 0x00180000>;
+				};
+				partition@1 {
+					label = "dts";
+					reg = <0x00180000 0x00020000>;
+				};
+				partition@2 {
+					label = "firmware";
+					reg = <0x00200000 0x00000000>;
+				};
+			};
+		};
+
+		spi1: spi@b8006300 {
+			compatible = "nuvoton,nuc970-spi1";
+			reg = <0xb8006300 0x100>;
+			interrupts = <52 4 1>;
+			map-addr = <0xf8006300>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_spi1>;
+			status = "disabled";
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			num_cs  = <2>;
+			lsb     = <0>;
+			txneg   = <1>;
+			rxneg   = <0>;
+			divider = <4>;
+			sleep   = <0>;
+			txnum   = <0>;
+			txbitlen = <8>;
+			bus_num = <1>;
+			quad = <0>;
+
+			spidev0: spi@0 {
+				compatible = "semtech,sx1301";
+				reg = <0>;
+				spi-max-frequency = <12000000>;
+			};
+		};
+
+		i2c0: i2c0@b8006000 {
+			compatible = "nuvoton,nuc970-i2c0";
+			reg = <0xb8006000 0x100>;
+			interrupts = <53 4 1>;
+			map-addr = <0xf8006000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_i2c0>;
+			bus_num = <0>;
+			bus_freq = <100000>;
+			status = "disabled";
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+
+		i2c1: i2c1@b8006100 {
+			compatible = "nuvoton,nuc970-i2c1";
+			reg = <0xb8006100 0x100>;
+			interrupts = <54 4 1>;
+			map-addr = <0xf8006100>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_i2c1_PG>;
+			bus_num = <1>;
+			bus_freq = <100000>;
+			status = "disabled";
+		};
+
+		etimer0: etimer0@b8001400 {
+			compatible = "nuvoton,nuc970-etimer";
+			reg = <0xb8001400 0x100>;
+			interrupts = <47 4 1>;
+			port-number = <0>;
+			map-addr = <0xf8001400>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_etimer0>;
+			status = "disabled";
+		};
+
+		etimer1: etimer1@b8001500 {
+			compatible = "nuvoton,nuc970-etimer";
+			reg = <0xb8001500 0x100>;
+			interrupts = <48 4 1>;
+			port-number = <1>;
+			map-addr = <0xf8001500>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_etimer1>;
+			status = "disabled";
+		};
+
+		etimer2: etimer2@b8001600 {
+			compatible = "nuvoton,nuc970-etimer";
+			reg = <0xb8001600 0x100>;
+			interrupts = <49 4 1>;
+			port-number = <2>;
+			map-addr = <0xf8001600>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_etimer2>;
+			status = "disabled";
+		};
+
+		etimer3: etimer3@b8001700 {
+			compatible = "nuvoton,nuc970-etimer";
+			reg = <0xb8001700 0x100>;
+			interrupts = <50 4 1>;
+			port-number = <3>;
+			map-addr = <0xf8001700>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_etimer3>;
+			status = "disabled";
+		};
+
+		pwm0: pwm0@b8007000 {
+			compatible = "nuvoton,nuc970-pwm";
+			reg = <0xb8007000 0x100>;
+			interrupts = <60 4 1>;
+			map-addr = <0xf8007000>;
+			id = <0>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_pwm0_PA>;
+			status = "disabled";
+		};
+
+		pwm1: pwm1@b8007000 {
+			compatible = "nuvoton,nuc970-pwm";
+			reg = <0xb8007000 0x100>;
+			interrupts = <60 4 1>;
+			map-addr = <0xf8007000>;
+			id = <1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_pwm1_PA>;
+			status = "disabled";
+		};
+
+		pwm2: pwm2@b8007000 {
+			compatible = "nuvoton,nuc970-pwm";
+			reg = <0xb8007000 0x100>;
+			interrupts = <60 4 1>;
+			map-addr = <0xf8007000>;
+			id = <2>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_pwm2_PA>;
+			status = "disabled";
+		};
+
+		pwm3: pwm3@b8007000 {
+			compatible = "nuvoton,nuc970-pwm";
+			reg = <0xb8007000 0x100>;
+			interrupts = <60 4 1>;
+			map-addr = <0xf8007000>;
+			id = <3>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_pwm3_PA>;
+			status = "disabled";
+		};
+
+		sc0: sc@b8005000 {
+			compatible = "nuvoton,nuc970-sc";
+			reg = <0xb8005000 0x400>;
+			interrupts = <55 4 1>;
+			map-addr = <0xf8005000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_sc0_PG>;
+			cdlvl = <2>;	// H(0), L(1), N(2)
+			pwrinv = <0>;
+			port-number = <0>;
+			status = "disabled";
+		};
+		sc1: sc@b8005400 {
+			compatible = "nuvoton,nuc970-sc";
+			reg = <0xb8005400 0x400>;
+			interrupts = <56 4 1>;
+			map-addr = <0xf8005400>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_sc1_PI>;
+			cdlvl = <0>;	// H(0), L(1), N(2)
+			pwrinv = <0>;
+			port-number = <1>;
+			status = "disabled";
+		};
+		scuart0: serial@b8005000 {
+			compatible = "nuvoton,nuc970-scuart";
+			reg = <0xb8005000 0x400>;
+			interrupts = <55 4 1>;
+			map-addr = <0xf8005000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_scuart0_PG>;
+			port-number = <0>;
+			status = "disabled";
+		};
+		scuart1: serial@b8005400 {
+			compatible = "nuvoton,nuc970-scuart";
+			reg = <0xb8005400 0x400>;
+			interrupts = <56 4 1>;
+			map-addr = <0xf8005400>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_scuart1_PI>;
+			port-number = <1>;
+			status = "disabled";
+		};
+
+	};  /* end of apb */
+
+	ahb {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		usbdev@b0006000 {
+			compatible = "nuvoton,nuc970-usbdev";
+			reg = <0xb0006000 0x1000>;
+			interrupts = <29 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_usbd>;
+			status = "okay";
+		};
+
+		sdh@b000c000 {
+			compatible = "nuvoton,nuc970-sdh";
+			reg = <0xb000c000 0x1000>;
+			interrupts = <27 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_sd0>;
+			status = "disabled";
+		};
+
+		fmi@b000d000 {
+			compatible = "nuvoton,nuc970-fmi";
+			reg = <0xb000d000 0x1000>;
+			interrupts = <28 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_emmc_pc>;
+			status = "okay";
+		};
+
+		usbh_ehci@b0005000 {
+			compatible = "nuvoton,nuc970-ehci";
+			reg = <0xb0005000 0x1000>;
+			interrupts = <23 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_usbh_ppwr_pe>;
+			ov_active = <0>;				 /* over-current active level, 1: active high; 0: active low				  */
+			status = "okay";
+		};
+
+		usbh_ohci@b0007000 {
+			compatible = "nuvoton,nuc970-ohci";
+			reg = <0xb0007000 0x1000>;
+			interrupts = <24 4 1>;
+			status = "okay";
+		};
+
+		crypto@b000f000 {
+			compatible = "nuvoton,nuc970-crypto";
+			reg = <0xb000f000 0x1000>;
+			interrupts = <35 4 1>;
+			status = "okay";
+		};
+
+		crypto_prng@b000f000 {
+			compatible = "nuvoton,nuvoton-rng";
+			reg = <0xb000f000 0x1000>;
+			status = "disable";
+		};
+
+		emac0@b0002000 {
+			compatible = "nuvoton,nuc970-emac0";
+			reg = <0xb0002000 0x1000>;
+			interrupts = <21 4 1>, <19 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_emac0>;
+			status = "okay";
+		};
+
+		emac1@b0003000 {
+			compatible = "nuvoton,nuc970-emac1";
+			reg = <0xb0003000 0x1000>;
+			interrupts = <22 4 1>, <20 4 1>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_emac1>;
+			status = "disabled";
+		};
+
+		cap@b000e000 {
+			compatible = "nuvoton,nuc970-cap";
+			reg = <0xb000e000 0x1000>;
+			interrupts = <14 4 1>;
+			status = "disabled";
+			port {
+				/* Parallel bus endpoint */
+				cap_1: endpoint {
+					remote-endpoint = <&hm1055_0>;
+					hsync-active = <0>;     /* Active low */
+					vsync-active = <0>;     /* Active low */
+					pclk-sample = <1>;      /* Rising */
+				};
+			};
+		};
+
+		i2c_gpio0: i2c-gpio-0 {
+			compatible = "i2c-gpio";
+			sda-gpios=<&gpio 0x21 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+			scl-gpios=<&gpio 0x20 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+			i2c-gpio,delay-us = <20>;        /* ~100 kHz */
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+			hm1055@24 {
+				compatible = "himax,hm1055";
+				reg = <0x24>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_cap>;
+				reset-gpios = <&gpio 0x107 GPIO_ACTIVE_LOW>; /* PI7 */
+				powerdown-gpios = <&gpio 0x100 GPIO_ACTIVE_HIGH>; /* PI0 */
+				port-number = <0>;
+				frequency = <24000000>;
+				port {
+					hm1055_0: endpoint {
+						remote-endpoint = <&cap_1>;
+					};
+				};
+			};
+		};
+
+		ebi@b0001000 {
+			compatible = "nuvoton,nuc970-ebi";
+			reg = <0xb0001000 0x100>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_ebi>;
+			status = "disabled";
+		};
+
+		i2s@b0009000 {
+			compatible = "nuvoton,nuc970-audio-i2s";
+			reg = <0xb0009000 0x100>;
+			interrupts = <12 4 1>;
+			map-addr = <0xf0009000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_i2s>;
+			status = "disabled";
+		};
+
+		i2s_pcm {
+			compatible = "nuvoton,nuc970-audio-pcm";
+			status = "disabled";
+		};
+
+		lcd@b0008000 {
+			compatible = "nuvoton,nuc970-lcd";
+			reg = <0xb0008000 0x100>;
+			interrupts = <13 4 1>;
+			map-addr = <0xf0008000>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_lcd_16bit>;
+			status = "disabled";
+		};
+
+		ge2d@b000b000 {
+			compatible = "nuvoton,nuc970-ge2d";
+			reg = <0xb000b000 0x100>;
+			interrupts = <34 4 1>;
+			map-addr = <0xf000b000>;
+			status = "disabled";
+		};
+	};  /* end of ahb */
+};
