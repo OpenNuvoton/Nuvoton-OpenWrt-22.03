@@ -21,7 +21,7 @@ include $(INCLUDE_DIR)/image.mk
 define Package/optee-ma35d1
   SECTION:=boot
   CATEGORY:=Boot Loaders
-  DEPENDS:=
+  DEPENDS:=@TARGET_ma35d1
   TITLE:=MA35D1 OP-TEE
   URL:=$(PKG_SOURCE_URL)
   PLATFORM:=nuvoton

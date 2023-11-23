@@ -26,7 +26,7 @@ include $(INCLUDE_DIR)/image.mk
 define Package/optee-client
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=
+  DEPENDS:=@TARGET_ma35d1
   TITLE:=Normal World Client side of the TEE
   URL:=$(PKG_SOURCE_URL)
 endef
