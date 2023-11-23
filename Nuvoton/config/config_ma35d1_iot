@@ -33,6 +33,7 @@ CONFIG_HOST_OS_LINUX=y
 # CONFIG_TARGET_qoriq is not set
 # CONFIG_TARGET_imx is not set
 CONFIG_TARGET_ma35d1=y
+# CONFIG_TARGET_nuc970 is not set
 # CONFIG_TARGET_nuc980 is not set
 # CONFIG_TARGET_octeontx is not set
 # CONFIG_TARGET_oxnas is not set

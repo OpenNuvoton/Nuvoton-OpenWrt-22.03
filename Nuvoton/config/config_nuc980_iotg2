@@ -33,6 +33,7 @@ CONFIG_HOST_OS_LINUX=y
 # CONFIG_TARGET_qoriq is not set
 # CONFIG_TARGET_imx is not set
 # CONFIG_TARGET_ma35d1 is not set
+# CONFIG_TARGET_nuc970 is not set
 CONFIG_TARGET_nuc980=y
 # CONFIG_TARGET_octeontx is not set
 # CONFIG_TARGET_oxnas is not set
@@ -46,6 +47,7 @@ CONFIG_TARGET_nuc980=y
 # CONFIG_TARGET_uml is not set
 # CONFIG_TARGET_zynq is not set
 # CONFIG_TARGET_x86 is not set
+# CONFIG_TARGET_nuc980_evb is not set
 # CONFIG_TARGET_nuc980_chili is not set
 # CONFIG_TARGET_nuc980_iot is not set
 CONFIG_TARGET_nuc980_iotg2=y

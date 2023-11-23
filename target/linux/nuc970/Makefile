@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 ARCH:=arm
 BOARD:=nuc970
-BOARDNAME:=Nuvoton NUC970
+BOARDNAME:=Nuvoton NUC970/N9H30
 FEATURES:=gpio usb squashfs targz nand ubifs boot-part rootfs-part jffs2
 CPU_TYPE:=arm926ej-s
 SUBTARGETS:=evb hmi
@@ -12,7 +12,7 @@ SUBTARGETS:=evb hmi
 KERNEL_PATCHVER:=5.10
 
 define Target/Description
-        Build firmware images for Nuvoton NUC970 SoC family routers.
+        Build firmware images for Nuvoton NUC970/N9H30 SoC family routers.
 endef
 
 include $(INCLUDE_DIR)/target.mk
