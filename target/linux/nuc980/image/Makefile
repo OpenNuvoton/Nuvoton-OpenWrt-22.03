@@ -17,11 +17,9 @@ UBI_OPTS = -m 2048 -p 128KiB -s 2048 -O 2048
 DEVICE_VARS += MKUBIFS_OPTS UBOOT BOOT_SCRIPT
 
 define Build/copy-dtb
-	touch /tmp/openwrt.env
-	sed -i 1,/\^$$/d /tmp/openwrt.env
-	echo DEVICE_NAME=$(DEVICE_NAME) >> /tmp/openwrt.env
-	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET)-v*.dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
-	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(SUBTARGET)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
+	echo DEVICE_NAME=$(DEVICE_NAME) > /tmp/openwrt.env
+	$(CP) $(KDIR)/image/${BOARD}-$(SUBTARGET).dtb $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET).dtb
+	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(DEVICE_NAME)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
 endef
 
 define Image/Build
@@ -86,9 +84,8 @@ define Device/nand
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += nand
-endif
 
-ifeq ($(SUBTARGET),chili)
+else ifeq ($(SUBTARGET),chili)
 define Device/spinor
   IMAGE_SIZE := 32768k
   PAGESIZE := 256
@@ -98,9 +95,9 @@ define Device/spinor
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += spinor
-endif
 
-ifneq ($(findstring iot,$(SUBTARGET)),)
+#else ifneq ($(findstring iot,$(SUBTARGET)),)
+else
 define Device/spinand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048

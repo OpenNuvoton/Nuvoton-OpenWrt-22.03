@@ -1,9 +1,0 @@
-baudrate=115200
-bootdelay=1
-stderr=serial
-stdin=serial
-stdout=serial
-setspi=sf probe 0 30000000
-loadkernel=sf read 0x07fc0 0x200000 0x600000
-loaddtb=sf read 0x1400000 0x180000 0x20000
-bootcmd=run setspi;run loadkernel;run loaddtb;bootm 0x07fc0 - 0x1400000

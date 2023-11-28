@@ -1411,9 +1411,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
 	aspeed-bmc-portwell-neptune.dtb \
 	aspeed-bmc-quanta-q71l.dtb
 dtb-$(CONFIG_ARCH_NUC980) += \
-	nuc980-evb-v1.0.dtb \
-	nuc980-iot-v1.0.dtb \
-	nuc980-iotg2-v1.0.dtb \
-	nuc980-lorag.dtb \
-	nuc980-eth2uart.dtb \
-	nuc980-chili-v1.0.dtb
+	nuc980-evb.dtb \
+	nuc980-iot.dtb \
+	nuc980-iotg2.dtb \
+	nuc980-chili.dtb
