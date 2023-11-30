@@ -46,11 +46,18 @@ define U-Boot/iotg2
   UBOOT_CONFIG:=nuc980_iot
 endef
 
+define U-Boot/server
+  NAME:=NUC980 Server board
+  BUILD_SUBTARGET:=server
+  UBOOT_CONFIG:=nuc980_eth2uart
+endef
+
 UBOOT_TARGETS := \
 	evb \
 	chili \
 	iot \
-	iotg2
+	iotg2 \
+	server
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)

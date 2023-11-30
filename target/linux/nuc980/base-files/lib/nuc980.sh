@@ -19,6 +19,9 @@ nuc980_board_detect() {
 	"Nuvoton NUC980 IOT V1.0")
 		name="spinand"
 		;;
+	"Nuvoton NUC980 Server V1.0")
+		name="spinand"
+		;;
 	*)
 		name="generic"
 		;;
