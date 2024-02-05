@@ -8,9 +8,9 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=arm-trusted-firmware-ma35d1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/OpenNuvoton/MA35D1_arm-trusted-firmware-v2.3.git
-PKG_SOURCE_DATE:=2023-10-02
-PKG_SOURCE_VERSION:=bfdc580e39a8e4727f8f33764e442b9326331047
-PKG_MIRROR_HASH:=c4331badaecb68690e41b3bb0e6df1feb0b4e3c0f63c4c8cbaa39039c5a93055
+PKG_SOURCE_DATE:=2024-01-29
+PKG_SOURCE_VERSION:=f7f3ae7f7dfa6997eb7eb8e9d31594e056259c2b
+PKG_MIRROR_HASH:=60ad77716221b93442883b8d90f6d1eb577571f68e5d8e4f685a8153b49bf332
 
 PKG_MAINTAINER:=Chih-Chiang Chang <ccchang12@nuvoton.com>
 
@@ -56,22 +56,39 @@ endif
 
 $(info PROFILE = $(PROFILE))
 ifneq ($(findstring 128m,$(PROFILE)),)
-  TFA_DTB_NAME:=ma35d1-cpu800-wb-128m
+  TFA_DTB_NAME:=ma35d1-cpu800-custom-ddr
   TFA_MAKE_FLAGS += MA35D1_DRAM_SIZE=0x07800000 MA35D1_DDR_MAX_SIZE=0x08000000 \
 		    MA35D1_DRAM_S_BASE=0x87800000 MA35D1_BL32_BASE=0x87800000
 else ifneq ($(findstring 256m,$(PROFILE)),)
-  TFA_DTB_NAME:=ma35d1-cpu800-wb-256m
+  TFA_DTB_NAME:=ma35d1-cpu800-custom-ddr
   TFA_MAKE_FLAGS += MA35D1_DRAM_SIZE=0x0F800000 MA35D1_DDR_MAX_SIZE=0x10000000 \
 		    MA35D1_DRAM_S_BASE=0x8F800000 MA35D1_BL32_BASE=0x8F800000
 else ifneq ($(findstring 512m,$(PROFILE)),)
-  TFA_DTB_NAME:=ma35d1-cpu800-wb-512m
+  TFA_DTB_NAME:=ma35d1-cpu800-custom-ddr
   TFA_MAKE_FLAGS += MA35D1_DRAM_SIZE=0x1F800000 MA35D1_DDR_MAX_SIZE=0x20000000 \
 		    MA35D1_DRAM_S_BASE=0x9F800000 MA35D1_BL32_BASE=0x9F800000
 else
-  TFA_DTB_NAME:=ma35d1-cpu800-mc-1g
+  TFA_DTB_NAME:=ma35d1-cpu800-custom-ddr
   TFA_MAKE_FLAGS += MA35D1_DRAM_SIZE=0x3F800000 MA35D1_DDR_MAX_SIZE=0x40000000 \
 		    MA35D1_DRAM_S_BASE=0xAF800000 MA35D1_BL32_BASE=0xAF800000
 endif
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+ifeq ($(SUBTARGET),iot)
+ifneq ($(findstring 128m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F787C_LQFP-216_MCP_WinbondDDR2_128M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/ma35d1/include/custom_ddr.h
+else ifneq ($(findstring 256m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F887C_LQFP-216_MCP_WinbondDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/ma35d1/include/custom_ddr.h
+else ifneq ($(findstring 512m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F987C_LQFP-216_MCP_WinbondDDR3L_512M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/ma35d1/include/custom_ddr.h
+endif
+else ifeq ($(SUBTARGET),som)
+ifneq ($(findstring 256m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16A887C_LFBGA-312_MCP_WinbondDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/ma35d1/include/custom_ddr.h
+endif
+endif
+endef
 
 define Package/trusted-firmware-a/install
 	touch /tmp/openwrt.boot
