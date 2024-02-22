@@ -214,7 +214,7 @@ IMAGE_CMD_sdcard() {
 	cd ${STAGING_DIR_IMAGE}
 	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-sdcard
 
-	dd if=${KDIR}/${DEVICE_NAME}.pt of=${STAGING_DIR_IMAGE}/MBR.scdard.bin conv=notrunc,fsync seek=0 count=1 bs=512
+	dd if=${KDIR}/${DEVICE_NAME}.pt of=${STAGING_DIR_IMAGE}/MBR.sdcard.bin conv=notrunc,fsync seek=0 count=1 bs=512
 	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-uImage Image
 	ln -sf ${KDIR}/root.ext4 rootfs.ext4
 
