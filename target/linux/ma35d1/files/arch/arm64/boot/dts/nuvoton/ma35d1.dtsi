@@ -107,6 +107,10 @@
 			reg = <0x0 0x80020000 0x0 0x60000>; /* 384KB */
 			no-map;
 		};
+		rpmsg_buf: rpmsg_buf@0 {
+			reg = <0x0 0x80080000 0x0 0x8000>; /* maximun tx+rx 16+16KB */
+			no-map;
+		};
 	};
 
 	timer {
@@ -400,6 +404,7 @@
 		nuvoton,sys = <&sys>;
 		interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
 		oc-active-level = <0>;    /* 1: active-high; 0: active low */
+		nuvoton,rcalcode0 = <7>;  /* Port 0 PHY Internal Resistor Trim Code (0 ~ 15) */
 		status = "okay";
 	};
 
@@ -411,6 +416,7 @@
 		nuvoton,sys = <&sys>;
 		interrupts = <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
 		oc-active-level = <0>;    /* 1: active-high; 0: active low */
+		nuvoton,rcalcode1 = <7>;  /* Port 1 PHY Internal Resistor Trim Code (0 ~ 15) */
 		status = "okay";
 	};
 
@@ -611,7 +617,6 @@
 		interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk I2S0_GATE>;
 		resets = <&reset MA35D1_RESET_I2S0>;
-		powerdown-gpios = <&gpiod 13 GPIO_ACTIVE_HIGH>; /* PD13 */
 		pdma_reqsel_tx = <86>;
 		pdma_reqsel_rx = <87>;
 		status = "disable";
@@ -645,6 +650,7 @@
 		clock-names = "wh0_gate";
 		interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
 		wakeup-source;
+		enable-wakeup;
 		#mbox-cells = <1>;
 		status = "okay";
 	};
@@ -668,6 +674,9 @@
 		mboxes = <&wormhole 2>;
 		tx-smem-size = <128>;
 		rx-smem-size = <128>;
+		/* rpmsg-v2-arch; */
+		/* rpmsg-ddr-buf; */
+		/* memory-region = <&rpmsg_buf>; */
 		status = "okay";
 	};
 
@@ -1025,6 +1034,14 @@
 			power-source = <1800>; /* 1800:1.8v , 3300:3.3v */
 			drive-strength = <7>; /* 0 ~ 7 */
 		};
+
+		pcfg_keypad: pcfg-keypad {
+			slew-rate = <0>; /* 0:normal, 1:high */
+			input-schmitt-disable;  /* input-schmitt-disable, input-schmitt-enable */
+			bias-pull-up; /* bias-disable, bias-pull-up, bias-pull-down  */
+			power-source = <3300>; /* 1800:1.8v , 3300:3.3v */
+			drive-strength = <0>; /* 0 ~ 7 */
+		};
 	};
 
 	sdhci0: sdhci@40180000 {
@@ -1230,8 +1247,9 @@
 		interrupts = <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <0>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr0_gate";
-		clock-names = "tmr0_mux";
+		clocks = <&clk TMR0_GATE>;
+		assigned-clocks = <&clk TMR0_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1241,8 +1259,9 @@
 		interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <1>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr1_gate";
-		clock-names = "tmr1_mux";
+		clocks = <&clk TMR1_GATE>;
+		assigned-clocks = <&clk TMR1_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1252,8 +1271,9 @@
 		interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <2>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr2_gate";
-		clock-names = "tmr2_mux";
+		clocks = <&clk TMR2_GATE>;
+		assigned-clocks = <&clk TMR2_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1263,8 +1283,9 @@
 		interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <3>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr3_gate";
-		clock-names = "tmr3_mux";
+		clocks = <&clk TMR3_GATE>;
+		assigned-clocks = <&clk TMR3_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1274,8 +1295,9 @@
 		interrupts = <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <4>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr4_gate";
-		clock-names = "tmr4_mux";
+		clocks = <&clk TMR4_GATE>;
+		assigned-clocks = <&clk TMR4_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1285,8 +1307,9 @@
 		interrupts = <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <5>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr5_gate";
-		clock-names = "tmr5_mux";
+		clocks = <&clk TMR5_GATE>;
+		assigned-clocks = <&clk TMR5_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1296,8 +1319,9 @@
 		interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <6>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr6_gate";
-		clock-names = "tmr6_mux";
+		clocks = <&clk TMR6_GATE>;
+		assigned-clocks = <&clk TMR6_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1307,8 +1331,9 @@
 		interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <7>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr7_gate";
-		clock-names = "tmr7_mux";
+		clocks = <&clk TMR7_GATE>;
+		assigned-clocks = <&clk TMR7_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1318,8 +1343,9 @@
 		interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <8>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr8_gate";
-		clock-names = "tmr8_mux";
+		clocks = <&clk TMR8_GATE>;
+		assigned-clocks = <&clk TMR8_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1329,8 +1355,9 @@
 		interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <9>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr9_gate";
-		clock-names = "tmr9_mux";
+		clocks = <&clk TMR9_GATE>;
+		assigned-clocks = <&clk TMR9_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1340,8 +1367,9 @@
 		interrupts = <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <10>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr10_gate";
-		clock-names = "tmr10_mux";
+		clocks = <&clk TMR10_GATE>;
+		assigned-clocks = <&clk TMR10_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1351,8 +1379,9 @@
 		interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>;
 		port-number = <11>;
 		nuvoton,clk = <&clk>;
-		clock-enable = "tmr11_gate";
-		clock-names = "tmr11_mux";
+		clocks = <&clk TMR11_GATE>;
+		assigned-clocks = <&clk TMR11_MUX>;
+		assigned-clock-parents = <&clk HXT>;
 		status = "disabled";
 	};
 
@@ -1643,6 +1672,7 @@
 		reg = <0x0 0x40280000 0x0 0x10000>;
 		interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk GFX_GATE>;
+		nuvoton,sys = <&sys>;
 		resets = <&reset MA35D1_RESET_GFX>;
 		status = "disabled";
 	};
@@ -1651,6 +1681,7 @@
 		compatible = "nuvoton,ma35d1-fb";
 		reg = <0x0 0x40260000 0x0 0x2000>;
 		interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
+		nuvoton,sys = <&sys>;
 		nuvoton,clk = <&clk>;
 		clocks = <&clk DCU_GATE>, <&clk DCUP_DIV>;
 		clock-names = "dcu_gate", "dcup_div";
