@@ -25,8 +25,8 @@ include $(INCLUDE_DIR)/image.mk
 include /tmp/openwrt.boot
 
 define Package/optee-examples
-  SECTION:=utils
-  CATEGORY:=Utilities
+  SECTION:=nuvoton
+  CATEGORY:=Nuvoton
   DEPENDS:= +optee-ma35d1 +optee-client
   TITLE:=OP-TEE Sample Applications
   URL:=$(PKG_SOURCE_URL)

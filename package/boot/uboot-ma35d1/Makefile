@@ -10,29 +10,29 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=uboot-ma35d1
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_u-boot-v2020.07.git
-PKG_SOURCE_DATE:=2023-12-26
-PKG_SOURCE_VERSION:=f6d075166a1ffe44571dd596a9f2c61aa2950f37
-PKG_MIRROR_HASH:=dc5ae757c1adb860f75cfe18bd073c68986938b2cadffe3f75cc0eb129ed1553
+PKG_SOURCE_DATE:=2024-02-23
+PKG_SOURCE_VERSION:=3e42fce1092e33e0b003d05a032b6a24a9d27719
+PKG_MIRROR_HASH:=dbbee23111550076c3eee1d43b7b9cffbc875777d441eaa0a4403a43cd83f8d5
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/image.mk
 
 define U-Boot/Default
-  BUILD_TARGET:=ma35d1
+  BUILD_TARGET:=$(BOARD)
   UBOOT_IMAGE:=u-boot.bin
 endef
 
 define U-Boot/generic
-  NAME:=MA35D1 board
+  NAME:=MA35 board
 ifneq ($(findstring spinand,$(PROFILE)),)
-  UBOOT_CONFIG:=ma35d1_spinand
+  UBOOT_CONFIG:=$(BOARD)_spinand
 else ifneq ($(findstring sdcard0,$(PROFILE)),)
-  UBOOT_CONFIG:=ma35d1_sdcard0
+  UBOOT_CONFIG:=$(BOARD)_sdcard0
 else ifneq ($(findstring sdcard1,$(PROFILE)),)
-  UBOOT_CONFIG:=ma35d1_sdcard1
+  UBOOT_CONFIG:=$(BOARD)_sdcard1
 else
-  UBOOT_CONFIG:=ma35d1_nand
+  UBOOT_CONFIG:=$(BOARD)_nand
 endif
 endef
 

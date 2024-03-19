@@ -26,7 +26,7 @@ endef
 define Build/sdcard-img
 	$(info "Build/sdcard-img" $(1))
 	SIGNATURE="$(IMG_PART_SIGNATURE)" \
-	/usr/bin/bash ./gen_ma35d1_sdcard_img.sh $@ \
+	/usr/bin/bash ./gen_ma35h0_sdcard_img.sh $@ \
 		$(CONFIG_TARGET_KERNEL_PARTSIZE) \
 		$(CONFIG_TARGET_ROOTFS_PARTSIZE) \
 		${KDIR} \
@@ -58,13 +58,13 @@ ifeq ($(1),squashfs)
 	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_KERNEL_PARTSIZE=$(CONFIG_TARGET_KERNEL_PARTSIZE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_ROOTFS_PARTSIZE=$(CONFIG_TARGET_ROOTFS_PARTSIZE) >> /tmp/openwrt.env
-ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
-	echo CONFIG_MA35D1_AES_KEY=$(CONFIG_MA35D1_AES_KEY) >> /tmp/openwrt.env
-	echo CONFIG_MA35D1_ECDSA_KEY=$(CONFIG_MA35D1_ECDSA_KEY) >> /tmp/openwrt.env
+ifeq ($(CONFIG_MA35H0_SECURE_BOOT),y)
+	echo CONFIG_MA35H0_AES_KEY=$(CONFIG_MA35H0_AES_KEY) >> /tmp/openwrt.env
+	echo CONFIG_MA35H0_ECDSA_KEY=$(CONFIG_MA35H0_ECDSA_KEY) >> /tmp/openwrt.env
 endif
 	touch /tmp/openwrt.boot
 	cat /tmp/openwrt.boot >> /tmp/openwrt.env
-	env - BASH_ENV=/tmp/openwrt.env /bin/bash $(TOPDIR)/Nuvoton/script/ma35d1-pack-image.sh
+	env - BASH_ENV=/tmp/openwrt.env /bin/bash $(TOPDIR)/Nuvoton/script/ma35h0-pack-image.sh
 	env - BASH_ENV=/tmp/openwrt.env /bin/bash $(TOPDIR)/Nuvoton/script/env-setup.sh
 endif
 endef
@@ -89,8 +89,8 @@ define Device/Default
   KERNEL := kernel-bin | gzip | uImage gzip
 endef
 
-ifeq ($(SUBTARGET),som)
-define Device/som-nand
+ifeq ($(SUBTARGET),hmi)
+define Device/hmi-nand
   IMAGE_SIZE := 32768k
   PAGESIZE := 2048
   BLOCKSIZE := 128k
@@ -100,25 +100,7 @@ define Device/som-nand
   IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
 endef
 
-define Device/som-sdcard
-  FILESYSTEMS := ext4
-  IMAGES := sysupgrade.gz
-  IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
-endef
-endif
-
-ifeq ($(SUBTARGET),iot)
-define Device/iot-nand
-  IMAGE_SIZE := 32768k
-  PAGESIZE := 2048
-  BLOCKSIZE := 128k
-  FILESYSTEMS := squashfs
-  IMAGES := firmware.bin sysupgrade.bin
-  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
-endef
-
-define Device/iot-sdcard
+define Device/hmi-sdcard
   FILESYSTEMS := ext4
   IMAGES := sysupgrade.gz
   IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
