@@ -32,7 +32,9 @@ CONFIG_HOST_OS_LINUX=y
 # CONFIG_TARGET_layerscape is not set
 # CONFIG_TARGET_qoriq is not set
 # CONFIG_TARGET_imx is not set
+# CONFIG_TARGET_ma35d0 is not set
 # CONFIG_TARGET_ma35d1 is not set
+# CONFIG_TARGET_ma35h0 is not set
 # CONFIG_TARGET_nuc970 is not set
 CONFIG_TARGET_nuc980=y
 # CONFIG_TARGET_octeontx is not set
@@ -366,7 +368,7 @@ CONFIG_KERNEL_CFLAGS=""
 CONFIG_EXTERNAL_KERNEL_TREE=""
 CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/OpenNuvoton/NUC980-linux-5.10.y.git"
 CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
-CONFIG_KERNEL_GIT_REF="8ef369d8e5ec86aa48da206ea805b426d0df97af"
+CONFIG_KERNEL_GIT_REF="480f943d29956a83f2c9bfc727368115a46f8eaf"
 CONFIG_KERNEL_GIT_MIRROR_HASH=""
 # CONFIG_BUILD_LOG is not set
 CONFIG_BUILD_LOG_DIR=""
@@ -1684,7 +1686,11 @@ CONFIG_ZABBIX_POSTGRESQL=y
 #
 # Boot Loaders
 #
+# CONFIG_PACKAGE_trusted-firmware-a-cpu1g is not set
+# CONFIG_PACKAGE_trusted-firmware-a-cpu650 is not set
+# CONFIG_PACKAGE_trusted-firmware-a-cpu800 is not set
 CONFIG_PACKAGE_u-boot-chili=y
+# CONFIG_PACKAGE_u-boot-generic is not set
 # end of Boot Loaders
 
 #
@@ -5523,6 +5529,11 @@ CONFIG_PACKAGE_uclient-fetch=y
 # CONFIG_PACKAGE_xinetd is not set
 # CONFIG_PACKAGE_xray-core is not set
 # end of Network
+
+#
+# Nuvoton
+#
+# end of Nuvoton
 
 #
 # Sound
