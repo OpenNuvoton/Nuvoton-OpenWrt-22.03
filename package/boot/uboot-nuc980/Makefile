@@ -46,6 +46,12 @@ define U-Boot/iotg2
   UBOOT_CONFIG:=nuc980_iot
 endef
 
+define U-Boot/iotg2d
+  NAME:=NUC980 IoT-G2D board
+  BUILD_SUBTARGET:=iotg2d
+  UBOOT_CONFIG:=nuc980_iot
+endef
+
 define U-Boot/server
   NAME:=NUC980 Server board
   BUILD_SUBTARGET:=server
@@ -57,6 +63,7 @@ UBOOT_TARGETS := \
 	chili \
 	iot \
 	iotg2 \
+	iotg2d \
 	server
 
 define Build/InstallDev
