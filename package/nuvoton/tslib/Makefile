@@ -14,7 +14,7 @@ PKG_RELEASE:=$(AUTORELEASE)
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=\
   https://github.com/libts/tslib/releases/download/$(PKG_VERSION)/
-PKG_HASH:=skip
+PKG_HASH:=9b489a54d48006201f2fe955a88c3f857535ac93b6cf8e5a16c7b166c8991dac
 
 PKG_LICENSE:=LGPL-2.1-or-later
 PKG_LICENSE_FILES:=COPYING
@@ -39,8 +39,8 @@ endef
 
 TARGET_CFLAGS += $(FPIC)
 #CONFIGURE_ARGS += \
-#	--disable-udev \
-#	--disable-log
+#	--disable-shared \
+#	--enable-static
 
 define Build/InstallDev
 endef

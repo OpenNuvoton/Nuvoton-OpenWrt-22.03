@@ -35,6 +35,14 @@ endef
 
 define Image/Build
 	$(info "Image/Build" $(1))
+ifeq ($(1),squashfs)
+	mkdir -p $(PLATFORM_DIR)/base-files/lib/modules/5.10.140/
+ifeq ($(CONFIG_LIBC_USE_MUSL),y)
+	$(CP) ./modules/dcultrafb_musl.ko $(PLATFORM_DIR)/base-files/lib/modules/5.10.140/dcultrafb.ko
+else
+	$(CP) ./modules/dcultrafb_glibc.ko $(PLATFORM_DIR)/base-files/lib/modules/5.10.140/dcultrafb.ko
+endif
+endif
 	$(call Image/Build/$(1),$(1))
 ifeq ($(1),squashfs)
 	echo ARCH=$(ARCH) >> /tmp/openwrt.env

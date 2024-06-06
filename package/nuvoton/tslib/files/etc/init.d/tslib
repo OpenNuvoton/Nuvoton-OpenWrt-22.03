@@ -5,12 +5,14 @@ START=99
 
 start()
 {
-
-if [ -e /dev/input/event1 ]; then
-	TSLIB_TSDEVICE=/dev/input/event1
-elif [ -e /dev/input/event0 ]; then
-	TSLIB_TSDEVICE=/dev/input/event0
-fi
+	ARCH=$(uname -m)
+	if [ "$ARCH" = "aarch64" ]; then
+		TSLIB_TSDEVICE=/dev/input/event0
+	elif [ -e /dev/input/event1 ]; then
+		TSLIB_TSDEVICE=/dev/input/event1
+	else
+		TSLIB_TSDEVICE=/dev/input/event0
+	fi
 	TSLIB_CONFFILE=/etc/ts.conf
 	TSLIB_CALIBFILE=/etc/pointercal
 	LD_LIBRARY_PATH=/lib/ts/

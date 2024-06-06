@@ -308,8 +308,8 @@ CONFIG_KERNEL_IPV6_SEG6_LWTUNNEL=y
 # CONFIG_KERNEL_JFS_POSIX_ACL is not set
 # end of Filesystem ACL and attr support options
 
-# CONFIG_KERNEL_DEVMEM is not set
-# CONFIG_KERNEL_DEVKMEM is not set
+CONFIG_KERNEL_DEVMEM=y
+CONFIG_KERNEL_DEVKMEM=y
 CONFIG_KERNEL_SQUASHFS_FRAGMENT_CACHE_SIZE=3
 # CONFIG_KERNEL_SQUASHFS_XATTR is not set
 CONFIG_KERNEL_CC_OPTIMIZE_FOR_PERFORMANCE=y
@@ -5568,9 +5568,11 @@ CONFIG_PACKAGE_uclient-fetch=y
 #
 # Nuvoton
 #
+# CONFIG_PACKAGE_emwin-ma35d1 is not set
 # CONFIG_PACKAGE_optee-client is not set
 # CONFIG_PACKAGE_optee-examples is not set
 # CONFIG_PACKAGE_optee-test is not set
+# CONFIG_PACKAGE_tslib is not set
 # end of Nuvoton
 
 #
