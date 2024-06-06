@@ -35,9 +35,9 @@ endef
 
 #ifneq ($(findstring musl,$(TOOLCHAIN_DIR)),)
 ifneq ($(CONFIG_LIBC_USE_MUSL),)
-	EMWIN_LDFLAGS = -L../../Lib -lNUemWin_musl -lm -L./tslib -lts -ldl -pthread
+	EMWIN_LDFLAGS = -L../../Lib -lNUemWin_musl -lm -L../../../../tslib-1.23/src/.libs -lts -ldl -pthread
 else
-	EMWIN_LDFLAGS = -L../../Lib -lNUemWin -lm -L./tslib -lts -ldl -pthread
+	EMWIN_LDFLAGS = -L../../Lib -lNUemWin -lm -L../../../../tslib-1.23/src/.libs -lts -ldl -pthread
 endif
 $(info EMWIN_LDFLAGS = $(EMWIN_LDFLAGS))
 
@@ -46,6 +46,7 @@ define Build/Compile
 	for subdir in $(PKG_BUILD_DIR)/$(PKG_SOURCE)/Sample/* ; do \
 		$(MAKE) -C "$$$$subdir" \
 			CC="$(TARGET_CC)" \
+			STRIP="$(TARGET_CROSS)strip" \
 			CFLAGS="$(TARGET_CFLAGS) -Wall" \
 			LDFLAGS="$(TARGET_LDFLAGS) $(EMWIN_LDFLAGS)" ; \
 	done
