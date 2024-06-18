@@ -51,7 +51,7 @@ ifeq ($(BOARD),ma35d1)
 ifeq ($(SUBTARGET),iot)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0
 else ifeq ($(SUBTARGET),som)
-  TFA_MAKE_FLAGS += MA35D1_PMIC=0
+  TFA_MAKE_FLAGS += MA35D1_PMIC=1
 endif
 else ifeq ($(BOARD),ma35h0)
   TFA_MAKE_FLAGS += all dtbs fiptool
