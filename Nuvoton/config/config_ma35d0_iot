@@ -1694,9 +1694,10 @@ CONFIG_ZABBIX_POSTGRESQL=y
 # Boot Loaders
 #
 CONFIG_PACKAGE_optee-ma35d1=y
-# CONFIG_PACKAGE_trusted-firmware-a-cpu1g is not set
-CONFIG_PACKAGE_trusted-firmware-a-cpu650=y
-# CONFIG_PACKAGE_trusted-firmware-a-cpu800 is not set
+CONFIG_PACKAGE_trusted-firmware-a-ma35d1=y
+CONFIG_TFA_CPU650=y
+CONFIG_TFA_PMIC_AUTO=y
+CONFIG_TFA_CUSTOM_DDR_FILE_AUTO=y
 CONFIG_PACKAGE_u-boot-generic=y
 # end of Boot Loaders
 

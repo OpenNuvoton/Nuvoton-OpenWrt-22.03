@@ -8,7 +8,7 @@ UBINIZE_ARGS="-m 2048 -p 128KiB -s 2048 -O 2048"
 
 is_optee_image()
 {
-	if grep -Eq "^CONFIG_PACKAGE_optee-ma35h0=y$" ${CONFIG_FILE}; then
+	if grep -Eq "^CONFIG_PACKAGE_optee-ma35d1=y$" ${CONFIG_FILE}; then
 		echo "yes"
 	else
 		echo "no"

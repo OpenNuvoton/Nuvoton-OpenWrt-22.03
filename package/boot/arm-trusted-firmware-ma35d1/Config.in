@@ -1,0 +1,40 @@
+choice
+        prompt "CPU Speed"
+        depends on PACKAGE_trusted-firmware-a-ma35d1
+config TFA_CPU650
+        bool "650 MHz"
+        depends on !TARGET_ma35d1
+config TFA_CPU800
+        bool "800 MHz"
+        depends on TARGET_ma35d1
+config TFA_CPU1G
+        bool "1 GHz"
+        depends on TARGET_ma35d1
+endchoice
+
+config TFA_PMIC_AUTO
+        bool "Set PMIC automatically"
+        default y
+        depends on PACKAGE_trusted-firmware-a-ma35d1
+choice
+        prompt "PMIC Select"
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && !TFA_PMIC_AUTO
+config TFA_PMIC_0
+        bool "No PMIC"
+config TFA_PMIC_1
+        bool "DIALOG PMIC"
+config TFA_PMIC_2
+        bool "IP6103 PMIC"
+config TFA_PMIC_3
+        bool "APW7704F PMIC"
+endchoice
+
+config TFA_CUSTOM_DDR_FILE_AUTO
+        bool "Set Custom DDR header file automatically"
+        default y
+        depends on PACKAGE_trusted-firmware-a-ma35d1
+config TFA_CUSTOM_DDR_FILE
+        string "Set Custom DDR header file in Nuvoton/ddr"
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && !TFA_CUSTOM_DDR_FILE_AUTO
+        default "MA35D16F987C_LQFP-216_MCP_WinbondDDR3L_512M_1PCS.h"
+
