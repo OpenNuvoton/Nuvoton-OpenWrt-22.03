@@ -6,6 +6,15 @@ NUWRITER_DIR=${TOPDIR}/Nuvoton/nuwriter
 IMAGE_BASENAME="openwrt-ma35h0"
 UBINIZE_ARGS="-m 2048 -p 128KiB -s 2048 -O 2048"
 
+is_rtp_m4()
+{
+	if grep -Eq "^CONFIG_TFA_LOAD_SCP_BL2=y$" ${CONFIG_FILE}; then
+		echo "yes"
+	else
+		echo "no"
+	fi
+}
+
 is_optee_image()
 {
 	if grep -Eq "^CONFIG_PACKAGE_optee-ma35d1=y$" ${CONFIG_FILE}; then
@@ -77,7 +86,20 @@ build_fip() {
 			jq -r ".header.ecdsakey = \"${CONFIG_MA35H0_ECDSA_KEY}\"" \
 			> ${STAGING_DIR_IMAGE}/fip/enc_fip.json
 
-		for x in bl31.bin u-boot.bin
+		TFA_FIP_IMAGE_LIST="bl31.bin u-boot.bin"
+		TFA_FIP_OPTS="--soc-fw ${STAGING_DIR_IMAGE}/fip/enc_bl31.bin \
+			--nt-fw ${STAGING_DIR_IMAGE}/fip/enc_u-boot.bin"
+		if [ $IS_RTP == "yes" ]; then
+			TFA_FIP_IMAGE_LIST="${TFA_FIP_IMAGE_LIST} rtp.bin"
+			TFA_FIP_OPTS="${TFA_FIP_OPTS} --scp-fw ${STAGING_DIR_IMAGE}/fip/enc_rtp.bin"
+		fi
+		if [ $IS_OPTEE == "yes" ]; then
+			TFA_FIP_IMAGE_LIST="${TFA_FIP_IMAGE_LIST} tee-header_v2.bin tee-pager_v2.bin"
+			TFA_FIP_OPTS="${TFA_FIP_OPTS} --tos-fw ${STAGING_DIR_IMAGE}/fip/enc_tee-header_v2.bin \
+				--tos-fw-extra1 ${STAGING_DIR_IMAGE}/fip/enc_tee-pager_v2.bin"
+		fi
+		echo "TFA_FIP_IMAGE_LIST= ${TFA_FIP_IMAGE_LIST}"
+		for x in ${TFA_FIP_IMAGE_LIST}
 		do
 			cp ${STAGING_DIR_IMAGE}/$x ${STAGING_DIR_IMAGE}/fip/enc.bin
 			python3 ${NUWRITER_DIR}/nuwriter.py -c ${STAGING_DIR_IMAGE}/fip/enc_fip.json > /dev/null
@@ -85,15 +107,21 @@ build_fip() {
 			rm -rf `date "+%m%d-*"` conv pack
 		done
 
-		${STAGING_DIR_IMAGE}/fiptool create \
-			--soc-fw ${STAGING_DIR_IMAGE}/fip/enc_bl31.bin \
-			--nt-fw ${STAGING_DIR_IMAGE}/fip/enc_u-boot.bin \
-			${STAGING_DIR_IMAGE}/fip.bin
+		echo ${STAGING_DIR_IMAGE}/fiptool create ${TFA_FIP_OPTS} ${STAGING_DIR_IMAGE}/fip.bin
+		${STAGING_DIR_IMAGE}/fiptool create ${TFA_FIP_OPTS} ${STAGING_DIR_IMAGE}/fip.bin
 	else
-		${STAGING_DIR_IMAGE}/fiptool create \
-			--soc-fw ${STAGING_DIR_IMAGE}/bl31.bin \
-			--nt-fw ${STAGING_DIR_IMAGE}/u-boot.bin \
-			${STAGING_DIR_IMAGE}/fip.bin
+		TFA_FIP_OPTS="--soc-fw ${STAGING_DIR_IMAGE}/bl31.bin \
+			--nt-fw ${STAGING_DIR_IMAGE}/u-boot.bin"
+		if [ $IS_RTP == "yes" ]; then
+			TFA_FIP_OPTS="${TFA_FIP_OPTS} --scp-fw ${STAGING_DIR_IMAGE}/rtp.bin"
+		fi
+		if [ $IS_OPTEE == "yes" ]; then
+			TFA_FIP_OPTS="${TFA_FIP_OPTS} --tos-fw ${STAGING_DIR_IMAGE}/tee-header_v2.bin \
+				--tos-fw-extra1 ${STAGING_DIR_IMAGE}/tee-pager_v2.bin"
+		fi
+
+		echo ${STAGING_DIR_IMAGE}/fiptool create ${TFA_FIP_OPTS} ${STAGING_DIR_IMAGE}/fip.bin
+		${STAGING_DIR_IMAGE}/fiptool create ${TFA_FIP_OPTS} ${STAGING_DIR_IMAGE}/fip.bin
 	fi
 }
 
@@ -224,6 +252,7 @@ IMAGE_CMD_sdcard() {
 
 main()
 {
+	IS_RTP=$(is_rtp_m4)
 	IS_OPTEE=$(is_optee_image)
 	IS_SECURE=$(is_secure_boot)
 

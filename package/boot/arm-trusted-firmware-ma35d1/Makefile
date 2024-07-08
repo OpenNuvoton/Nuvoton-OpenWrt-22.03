@@ -36,8 +36,15 @@ endef
 
 TFA_TARGETS:=ma35d1
 
+TFA_MAKE_FLAGS += PLAT=$(BOARD) all dtbs fiptool
+ifeq ($(CONFIG_TFA_LOAD_SCP_BL2),y)
+  TFA_MAKE_FLAGS += NEED_SCP_BL2=yes
+endif
+ifeq ($(CONFIG_PACKAGE_optee-ma35d1),y)
+  TFA_MAKE_FLAGS += NEED_BL32=yes
+endif
+
 ifeq ($(BOARD),ma35d1)
-  TFA_MAKE_FLAGS += PLAT=$(BOARD) NEED_BL32=yes all dtbs fiptool
 ifeq ($(CONFIG_TFA_PMIC_AUTO),y)
 ifeq ($(SUBTARGET),iot)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0
@@ -54,7 +61,6 @@ else ifeq ($(CONFIG_TFA_PMIC_3),y)
   TFA_MAKE_FLAGS += MA35D1_PMIC=3
 endif
 else ifeq ($(BOARD),ma35h0)
-  TFA_MAKE_FLAGS += PLAT=$(BOARD) all dtbs fiptool
 ifeq ($(CONFIG_TFA_PMIC_AUTO),y)
   TFA_MAKE_FLAGS += MA35H0_PMIC=0
 else ifeq ($(CONFIG_TFA_PMIC_0),y)
@@ -67,7 +73,6 @@ else ifeq ($(CONFIG_TFA_PMIC_3),y)
   TFA_MAKE_FLAGS += MA35H0_PMIC=3
 endif
 else ifeq ($(BOARD),ma35d0)
-  TFA_MAKE_FLAGS += PLAT=$(BOARD) NEED_BL32=yes all dtbs fiptool
 ifeq ($(CONFIG_TFA_PMIC_AUTO),y)
   TFA_MAKE_FLAGS += MA35D0_PMIC=0
 else ifeq ($(CONFIG_TFA_PMIC_0),y)
@@ -168,6 +173,9 @@ define Package/trusted-firmware-a/install
 	sed -i /^TFA_/d /tmp/openwrt.boot
 	echo TFA_DTB_NAME=$(TFA_DTB_NAME) >> /tmp/openwrt.boot
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
+ifeq ($(CONFIG_TFA_LOAD_SCP_BL2),y)
+	$(INSTALL_DATA) $(TOPDIR)/Nuvoton/rtp/$(CONFIG_TFA_SCP_BL2_FILE) $(STAGING_DIR_IMAGE)/rtp.bin
+endif
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/$(BOARD)/release/bl2.bin $(STAGING_DIR_IMAGE)/bl2.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/$(BOARD)/release/bl31.bin $(STAGING_DIR_IMAGE)/bl31.bin
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/build/$(BOARD)/release/fdts/$(TFA_DTB_NAME).dtb $(STAGING_DIR_IMAGE)/bl2.dtb

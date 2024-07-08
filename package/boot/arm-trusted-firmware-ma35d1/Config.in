@@ -1,3 +1,14 @@
+config TFA_LOAD_SCP_BL2
+        bool "Add SCP_BL2 image into FIP Image"
+        default n
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && TARGET_ma35d1
+config TFA_SCP_BL2_FILE
+        string "Set SCP_BL2 binary file in Nuvoton/rtp"
+        default "template.bin"
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && TFA_LOAD_SCP_BL2
+        help
+          The file name of RTP-M4 raw binary.
+
 choice
         prompt "CPU Speed"
         depends on PACKAGE_trusted-firmware-a-ma35d1
@@ -35,6 +46,6 @@ config TFA_CUSTOM_DDR_FILE_AUTO
         depends on PACKAGE_trusted-firmware-a-ma35d1
 config TFA_CUSTOM_DDR_FILE
         string "Set Custom DDR header file in Nuvoton/ddr"
-        depends on PACKAGE_trusted-firmware-a-ma35d1 && !TFA_CUSTOM_DDR_FILE_AUTO
         default "MA35D16F987C_LQFP-216_MCP_WinbondDDR3L_512M_1PCS.h"
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && !TFA_CUSTOM_DDR_FILE_AUTO
 
