@@ -176,6 +176,13 @@
 		/*pdma-enable = <1>;*/ /* enable PDMA */
 		pdma-enable = <0>; /* Disable PDMA */
 
+		/* wakeup-enable = <cts-wakeup fifo-threshold-wakeup fifo-timeout-wakeup> */
+		/* wakeup-enable = <1 1 0>; */
+		
+		/* set: 1, 4, 8, 14 or 30 bytes */
+		/* only for fifo threshold wakeup */
+		/* fifo-threshold = <14>; */ 
+
 		status = "disabled";
 	};
 
@@ -629,6 +636,17 @@
 		resets = <&reset MA35D1_RESET_I2S0>;
 		pdma_reqsel_tx = <86>;
 		pdma_reqsel_rx = <87>;
+		status = "disable";
+	};
+
+	i2s1: i2s@40490000 {
+		compatible = "nuvoton,ma35d1-audio-i2s";
+		reg = <0x0 0x40490000 0x0 0x10000>;
+		interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&clk I2S1_GATE>;
+		resets = <&reset MA35D1_RESET_I2S1>;
+		pdma_reqsel_tx = <88>;
+		pdma_reqsel_rx = <89>;
 		status = "disable";
 	};
 
@@ -1665,15 +1683,28 @@
 	};
 
 	adc0: adc@40420000 {
+		// To use hybrid ADC driver (IIO+TS) for touch screen, change
+		// the compatible string to "nuvoton,ma35d1-adc",
+		// For IIO-only ADC driver, use "nuvoton,ma35-adc" instead.
 		compatible = "nuvoton,ma35d1-adc";
+
 		reg = <0x0 0x40420000 0x0 0x500>;
 		interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk ADC_GATE>;
 		clock-names = "adc_gate";
 		clock-rate = <200000>;
+
+		// Properties for IIO-only ADC driver
+		nuvoton,adc-vref = <3300>;
+		nuvoton,min-clock-frequency = <3200000>;
+		nuvoton,max-clock-frequency = <16000000>;
+		#io-channel-cells = <1>;
+
+		//Properties for hybrid ADC driver (IIO+TS)
 		enable-iio;
 		enable-ts;
 		ts-type = <4>;
+
 		status = "disabled";
 	};
 
