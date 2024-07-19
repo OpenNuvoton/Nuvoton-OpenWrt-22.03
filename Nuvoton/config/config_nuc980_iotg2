@@ -369,7 +369,7 @@ CONFIG_KERNEL_CFLAGS=""
 CONFIG_EXTERNAL_KERNEL_TREE=""
 CONFIG_KERNEL_GIT_CLONE_URI="https://github.com/OpenNuvoton/NUC980-linux-5.10.y.git"
 CONFIG_KERNEL_GIT_LOCAL_REPOSITORY=""
-CONFIG_KERNEL_GIT_REF="480f943d29956a83f2c9bfc727368115a46f8eaf"
+CONFIG_KERNEL_GIT_REF="16a625574bf00f2f8a7006e3b7db6d3a2d07b0b2"
 CONFIG_KERNEL_GIT_MIRROR_HASH=""
 # CONFIG_BUILD_LOG is not set
 CONFIG_BUILD_LOG_DIR=""
@@ -1687,10 +1687,6 @@ CONFIG_ZABBIX_POSTGRESQL=y
 #
 # Boot Loaders
 #
-# CONFIG_PACKAGE_trusted-firmware-a-cpu1g is not set
-# CONFIG_PACKAGE_trusted-firmware-a-cpu650 is not set
-# CONFIG_PACKAGE_trusted-firmware-a-cpu800 is not set
-# CONFIG_PACKAGE_u-boot-generic is not set
 CONFIG_PACKAGE_u-boot-iotg2=y
 # end of Boot Loaders
 

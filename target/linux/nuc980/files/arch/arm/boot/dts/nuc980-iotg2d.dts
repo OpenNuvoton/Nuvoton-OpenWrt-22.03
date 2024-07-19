@@ -294,7 +294,7 @@
 		};
 
 		usbdev@b0016000 {
-			status = "okay";
+			status = "disabled";
 		};
 
 		fmi@b0019000 {
