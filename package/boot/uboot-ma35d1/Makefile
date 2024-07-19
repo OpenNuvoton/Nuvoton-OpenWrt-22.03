@@ -21,6 +21,7 @@ include $(INCLUDE_DIR)/image.mk
 define U-Boot/Default
   BUILD_TARGET:=$(BOARD)
   UBOOT_IMAGE:=u-boot.bin
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35h0)
 endef
 
 define U-Boot/generic

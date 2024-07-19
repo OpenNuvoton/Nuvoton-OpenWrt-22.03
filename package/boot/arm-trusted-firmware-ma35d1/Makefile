@@ -28,6 +28,7 @@ define Trusted-Firmware-A/Default
   BUILD_TARGET:=$(BOARD)
   PLAT:=$(BOARD)
   TFA_IMAGE:=bl2.bin bl31.bin
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35h0)
 endef
 
 define Trusted-Firmware-A/ma35d1
