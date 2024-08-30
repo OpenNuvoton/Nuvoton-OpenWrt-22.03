@@ -211,7 +211,13 @@ IMAGE_CMD-spinand() {
 	# convert image to UBI format for SPINAND
 	${STAGING_DIR_HOST}/bin/ubinize ${UBINIZE_ARGS} -o ${STAGING_DIR_IMAGE}/uboot-env.ubi-spinand ${STAGING_DIR_IMAGE}/ma35d1-uEnv-spinand-ubi.cfg
 
-	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-firmware.bin firmware.bin
+	if echo $TARGET_FILESYSTEMS | grep -q "squashfs"; then
+		ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-firmware.bin firmware.bin
+	elif echo $TARGET_FILESYSTEMS | grep -q "ubifs"; then
+		ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-ubifs-firmware.bin firmware.bin
+	else
+		echo "Cannot find a filesystem"
+	fi
 	cp ${NUWRITER_DIR}/pack-spinand.json ${STAGING_DIR_IMAGE}/pack-spinand.json
 
 	IMAGE_CMD_init spinand
@@ -223,7 +229,13 @@ IMAGE_CMD-nand() {
 	cd ${STAGING_DIR_IMAGE}
 	cp ${STAGING_DIR_IMAGE}/uboot-env.bin ${STAGING_DIR_IMAGE}/uboot-env.bin-nand
 
-	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-firmware.bin firmware.bin
+	if echo $TARGET_FILESYSTEMS | grep -q "squashfs"; then
+		ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-firmware.bin firmware.bin
+	elif echo $TARGET_FILESYSTEMS | grep -q "ubifs"; then
+		ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-ubifs-firmware.bin firmware.bin
+	else
+		echo "Cannot find a filesystem"
+	fi
 	cp ${NUWRITER_DIR}/pack-nand.json ${STAGING_DIR_IMAGE}/pack-nand.json
 
 	IMAGE_CMD_init nand

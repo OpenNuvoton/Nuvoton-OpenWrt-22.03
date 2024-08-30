@@ -64,6 +64,7 @@ ifeq ($(1),squashfs)
 	echo STAGING_DIR=$(STAGING_DIR) >> /tmp/openwrt.env
 	echo STAGING_DIR_HOST=$(STAGING_DIR_HOST) >> /tmp/openwrt.env
 	echo STAGING_DIR_IMAGE=$(STAGING_DIR_IMAGE) >> /tmp/openwrt.env
+	echo TARGET_FILESYSTEMS=\"$(TARGET_FILESYSTEMS)\" >> /tmp/openwrt.env
 	echo CONFIG_TARGET_KERNEL_PARTSIZE=$(CONFIG_TARGET_KERNEL_PARTSIZE) >> /tmp/openwrt.env
 	echo CONFIG_TARGET_ROOTFS_PARTSIZE=$(CONFIG_TARGET_ROOTFS_PARTSIZE) >> /tmp/openwrt.env
 ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
