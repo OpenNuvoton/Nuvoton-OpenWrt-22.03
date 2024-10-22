@@ -22,6 +22,9 @@ nuc980_board_detect() {
 	"Nuvoton NUC980 Server V1.0")
 		name="spinand"
 		;;
+	"Nuvoton NUC980 DEV V1.0")
+		name="nand"
+		;;
 	*)
 		name="generic"
 		;;

@@ -22,6 +22,10 @@ platform_do_upgrade() {
 		REQUIRE_IMAGE_METADATA=1
 		nand_do_upgrade "$1"
 		;;
+        *nand*)
+		REQUIRE_IMAGE_METADATA=1
+		nand_do_upgrade "$1"
+		;;
         esac
 }
 
