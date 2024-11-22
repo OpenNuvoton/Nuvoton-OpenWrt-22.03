@@ -9,10 +9,10 @@ PKG_NAME:=optee-ma35d1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_optee_os-v3.9.0.git
-PKG_SOURCE_DATE:=2024-02-21
-PKG_SOURCE_VERSION:=d09cf1503c25fd6e5fd743e2aae15123b6db7ea8
-PKG_MIRROR_HASH:=195f5575dd43a790ce5db80d2c760273943f22e3193133ac4978a9755457e89f
+PKG_SOURCE_URL:=https://github.com/OpenNuvoton/optee_os_ma35.git
+PKG_SOURCE_DATE:=2024-09-26
+PKG_SOURCE_VERSION:=5499943b4f9663e6b44c22e87d1d444a508ae1ce
+PKG_MIRROR_HASH:=cb49730a46748cda7465ead1786f3e955d7c0fee79e1102eec394631614200ea
 CMAKE_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -22,9 +22,9 @@ define Package/optee-ma35d1
   SECTION:=boot
   CATEGORY:=Boot Loaders
   DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0)
-  TITLE:=MA35 OP-TEE
+  TITLE:=OP-TEE OS for MA35 board
   URL:=$(PKG_SOURCE_URL)
-  PLATFORM:=nuvoton
+  PLATFORM:=ma35
 endef
 
 ifeq ($(BOARD),ma35d1)
@@ -58,15 +58,15 @@ define Package/optee-ma35d1/install
 	touch /tmp/openwrt.boot
 	sed -i /^OPTEE_/d /tmp/openwrt.boot
 	echo OPTEE_PROFILE=$(PROFILE) >> /tmp/openwrt.boot
-	echo OPTEE_TA_DIR=$(PKG_BUILD_DIR)/out/arm-plat-nuvoton/export-ta_arm64 >> /tmp/openwrt.boot
+	echo OPTEE_TA_DIR=$(PKG_BUILD_DIR)/out/arm-plat-ma35/export-ta_arm64 >> /tmp/openwrt.boot
 
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee.bin $(STAGING_DIR_IMAGE)/tee.bin
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee-pager_v2.bin $(STAGING_DIR_IMAGE)/tee-pager_v2.bin
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee-pageable_v2.bin $(STAGING_DIR_IMAGE)/tee-pageable_v2.bin
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/core/tee-header_v2.bin $(STAGING_DIR_IMAGE)/tee-header_v2.bin
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/core/tee.bin $(STAGING_DIR_IMAGE)/tee.bin
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/core/tee-pager_v2.bin $(STAGING_DIR_IMAGE)/tee-pager_v2.bin
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/core/tee-header_v2.bin $(STAGING_DIR_IMAGE)/tee-header_v2.bin
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/core/tee-pageable_v2.bin $(STAGING_DIR_IMAGE)/tee-pageable_v2.bin
 
 	$(INSTALL_DIR) $(1)/lib/optee_armtz/
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-nuvoton/*/*/*.ta $(1)/lib/optee_armtz/
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/export-ta_arm64/ta/*.ta $(1)/lib/optee_armtz/
 endef
 
 $(eval $(call BuildPackage,optee-ma35d1))
