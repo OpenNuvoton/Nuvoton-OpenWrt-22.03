@@ -1684,10 +1684,6 @@ CONFIG_ZABBIX_POSTGRESQL=y
 #
 # Boot Loaders
 #
-# CONFIG_PACKAGE_trusted-firmware-a-cpu1g is not set
-# CONFIG_PACKAGE_trusted-firmware-a-cpu650 is not set
-# CONFIG_PACKAGE_trusted-firmware-a-cpu800 is not set
-# CONFIG_PACKAGE_u-boot-generic is not set
 CONFIG_PACKAGE_u-boot-hmi=y
 # end of Boot Loaders
 

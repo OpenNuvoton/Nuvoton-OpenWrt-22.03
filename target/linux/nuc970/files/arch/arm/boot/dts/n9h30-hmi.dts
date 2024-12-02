@@ -13,6 +13,7 @@
 /dts-v1/;
 
 #include "nuc970.dtsi"
+#include <dt-bindings/input/input.h>
 / {
 	model = "numaker-hmi-n9h30";
 	compatible = "nuvoton,nuc972-evb", "nuvoton,nuc972", "nuvoton,nuc970";
@@ -115,6 +116,18 @@
 
 		pwm3: pwm3@b8007000 {
 			status = "disabled";
+		};
+
+		keys: keys@b000b000 {
+			status = "disabled";
+			key-matrix = <3 2>;
+			gpio-keys-rows = <170
+							  143
+							  142>; /* PF10, PE15, PE14 */
+			gpio-keys-cols = <36 37>;  /* PB4, PB5 */
+			key-code = <KEY_F1 KEY_F2
+						KEY_F3 KEY_F4
+						KEY_F5 KEY_F6>;
 		};
 
 	};

@@ -1170,7 +1170,7 @@
 			eint5-config = <1 0 0>;
 			eint6-config = <1 0 0>;
 			eint7-config = <1 0 0>;
-			status = "disabled";
+			status = "okay";
 		};
 
 		adc: adc@b800a000 {
@@ -1215,14 +1215,16 @@
 			txnum   = <0>;
 			txbitlen = <8>;
 			bus_num = <0>;
-			quad = <0>;
+			quad = <1>;
 
 			flash: flash@0 {
-				compatible = "winbond,w25q128";
+				compatible = "jedec,spi-nor";
 				#address-cells = <1>;
 				#size-cells = <1>;
 				reg = <0>;
-				spi-max-frequency = <12000000>;
+				spi-tx-bus-width = <1>;
+				spi-rx-bus-width = <4>;
+				spi-max-frequency = <18750000>;
 
 				partition@0 {
 					label = "uboot";
@@ -1426,6 +1428,11 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&pinctrl_scuart1_PI>;
 			port-number = <1>;
+			status = "disabled";
+		};
+
+		keys: keys@b000b000 {
+			compatible = "nuvoton,nuc970-keys";
 			status = "disabled";
 		};
 
