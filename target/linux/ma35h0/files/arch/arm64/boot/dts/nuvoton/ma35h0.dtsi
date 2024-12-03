@@ -386,10 +386,10 @@
 		debounce-period = <1>;
 
 		/* pre-scale is from 1 ~ 256 */
-		per-scale = <1>;
+		pre-scale = <1>;
 
 		/* pre-scale divider is from 1 ~ 256 */
-		per-scalediv = <32>;
+		pre-scalediv = <32>;
 
 		status = "disabled";
 
@@ -476,15 +476,6 @@
 
 	misctrl {
 		compatible = "nuvoton,ma35h0-misctrl";
-		status = "okay";
-	};
-
-	rpmsg {
-		compatible = "nuvoton,ma35h0-rpmsg";
-		share-mem-addr = <0x2401ff00>;
-		mboxes = <&wormhole 2>;
-		tx-smem-size = <128>;
-		rx-smem-size = <128>;
 		status = "okay";
 	};
 

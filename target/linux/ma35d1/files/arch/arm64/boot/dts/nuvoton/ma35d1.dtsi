@@ -29,6 +29,7 @@
 	aliases {
 		ethernet0 = &gmac0;
 		ethernet1 = &gmac1;
+		i2c0 = &i2c2;
 	};
 
 	cpus {
@@ -118,7 +119,11 @@
 			no-map;
 		};
 		rpmsg_buf: rpmsg_buf@0 {
-			reg = <0x0 0x80080000 0x0 0x8000>; /* maximun tx+rx 16+16KB */
+			reg = <0x0 0x84000000 0x0 0x8000>; /* maximun tx+rx 16+16KB */
+			no-map;
+		};
+		amp_buf: amp_buf@0 {
+			reg = <0x0 0x84008000 0x0 0x20000>; /* 128KB for amp shared memory */
 			no-map;
 		};
 	};
@@ -559,10 +564,10 @@
 		debounce-period = <1>;
 
 		/* pre-scale is from 1 ~ 256 */
-		per-scale = <1>;
+		pre-scale = <1>;
 
 		/* pre-scale divider is from 1 ~ 256 */
-		per-scalediv = <32>;
+		pre-scalediv = <32>;
 
 		status = "disabled";
 
@@ -706,6 +711,14 @@
 		/* rpmsg-ddr-buf; */
 		/* memory-region = <&rpmsg_buf>; */
 		status = "okay";
+	};
+
+	amp: amp {
+		compatible = "nuvoton,ma35-amp";
+		memory-region = <&amp_buf>;
+		rxipi = <&timer8>;
+		txipi = <&timer9>;
+		status = "disabled";
 	};
 
 	gmac0: ethernet@40120000 {

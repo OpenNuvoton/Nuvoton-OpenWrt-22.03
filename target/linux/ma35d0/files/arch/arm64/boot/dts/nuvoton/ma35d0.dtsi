@@ -114,6 +114,10 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
+		amp_buf: amp_buf@0 {
+			reg = <0x0 0x84008000 0x0 0x20000>; /* 128KB for amp shared memory */
+			no-map;
+		};
 	};
 
 	timer {
@@ -452,10 +456,10 @@
 		debounce-period = <1>;
 
 		/* pre-scale is from 1 ~ 256 */
-		per-scale = <1>;
+		pre-scale = <1>;
 
 		/* pre-scale divider is from 1 ~ 256 */
-		per-scalediv = <32>;
+		pre-scalediv = <32>;
 
 		status = "disabled";
 
@@ -545,13 +549,12 @@
 		status = "okay";
 	};
 
-	rpmsg {
-		compatible = "nuvoton,ma35d0-rpmsg";
-		share-mem-addr = <0x2401ff00>;
-		mboxes = <&wormhole 2>;
-		tx-smem-size = <128>;
-		rx-smem-size = <128>;
-		status = "okay";
+	amp: amp {
+		compatible = "nuvoton,ma35-amp";
+		memory-region = <&amp_buf>;
+		rxipi = <&timer8>;
+		txipi = <&timer9>;
+		status = "disabled";
 	};
 
 	emac0: ethernet@40120000 {
