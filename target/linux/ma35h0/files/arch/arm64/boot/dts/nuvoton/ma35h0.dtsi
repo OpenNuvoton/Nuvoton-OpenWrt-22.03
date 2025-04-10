@@ -439,6 +439,7 @@
 		resets = <&reset MA35H0_RESET_I2S0>;
 		pdma_reqsel_tx = <86>;
 		pdma_reqsel_rx = <87>;
+		mclk_out = <12000000>;
 		status = "disable";
 	};
 

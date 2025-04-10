@@ -115,7 +115,7 @@
 		#size-cells = <2>;
 		ranges;
 		amp_buf: amp_buf@0 {
-			reg = <0x0 0x84008000 0x0 0x20000>; /* 128KB for amp shared memory */
+			reg = <0x0 0x84000000 0x0 0x8800>;
 			no-map;
 		};
 	};
@@ -509,6 +509,7 @@
 		resets = <&reset MA35D0_RESET_I2S0>;
 		pdma_reqsel_tx = <86>;
 		pdma_reqsel_rx = <87>;
+		mclk_out = <12000000>;
 		status = "disable";
 	};
 
