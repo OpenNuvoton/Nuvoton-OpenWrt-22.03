@@ -54,6 +54,14 @@ config TFA_CUSTOM_DDR_FILE_AUTO
         bool "Set Custom DDR header file automatically"
         default y
         depends on PACKAGE_trusted-firmware-a-ma35d1
+choice
+        prompt "MA35D1 Chip version"
+        depends on TARGET_ma35d1 && PACKAGE_trusted-firmware-a-ma35d1 && TFA_CUSTOM_DDR_FILE_AUTO
+config TFA_MA35_VER_A
+        bool "MA35 series version A SoC"
+config TFA_MA35_VER_B
+        bool "MA35 series version B SoC"
+endchoice
 config TFA_CUSTOM_DDR_FILE
         string "Set Custom DDR header file in Nuvoton/ddr"
         default "MA35D16F987C_LQFP-216_MCP_WinbondDDR3L_512M_1PCS.h"

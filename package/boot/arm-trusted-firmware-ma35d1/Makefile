@@ -85,7 +85,7 @@ else ifeq ($(CONFIG_TFA_PMIC_2),y)
 else ifeq ($(CONFIG_TFA_PMIC_3),y)
   TFA_MAKE_FLAGS += MA35D0_PMIC=3 MA35D0_CPU_CORE=$(CONFIG_TFA_CPU_CORE_POWER)
 endif
-endif
+endif	// BOARD
 
 ifeq ($(CONFIG_MA35D1_SECURE_BOOT),y)
   TFA_MAKE_FLAGS += FIP_DE_AES=1
@@ -114,13 +114,13 @@ else ifneq ($(findstring 512m,$(PROFILE)),)
 else
   TFA_MAKE_FLAGS += MA35D1_DRAM_SIZE=0x3F800000 MA35D1_DDR_MAX_SIZE=0x40000000 \
 		    MA35D1_DRAM_S_BASE=0xAF800000 MA35D1_BL32_BASE=0xAF800000
-endif
+endif	// PROFILE
 else ifeq ($(BOARD),ma35h0)
   TFA_DTB_NAME:=ma35h0-cpu650-custom-ddr
 ifneq ($(findstring 128m,$(PROFILE)),)
   TFA_MAKE_FLAGS += MA35H0_DRAM_SIZE=0x7F800000 MA35H0_DDR_MAX_SIZE=0x80000000 \
 		    MA35H0_DRAM_S_BASE=0xFF800000 MA35H0_BL32_BASE=0xFF800000
-endif
+endif	// PROFILE
 else ifeq ($(BOARD),ma35d0)
   TFA_DTB_NAME:=ma35d0-cpu650-custom-ddr
 ifneq ($(findstring 128m,$(PROFILE)),)
@@ -129,45 +129,67 @@ ifneq ($(findstring 128m,$(PROFILE)),)
 else ifneq ($(findstring 256m,$(PROFILE)),)
   TFA_MAKE_FLAGS += MA35D0_DRAM_SIZE=0x0F800000 MA35D0_DDR_MAX_SIZE=0x10000000 \
 		    MA35D0_DRAM_S_BASE=0x8F800000 MA35D0_BL32_BASE=0x8F800000
-endif
-endif
+endif	// PROFILE
+endif	// BOARD
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
 ifeq ($(CONFIG_TFA_CUSTOM_DDR_FILE_AUTO),y)
 ifeq ($(BOARD),ma35d1)
+
 ifeq ($(SUBTARGET),iot)
+
+ifeq ($(CONFIG_TFA_MA35_VER_A),y)
 ifneq ($(findstring 128m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F787C_LQFP-216_MCP_WinbondDDR2_128M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
 else ifneq ($(findstring 256m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F887C_LQFP-216_MCP_WinbondDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
 else ifneq ($(findstring 512m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16F987C_LQFP-216_MCP_WinbondDDR3L_512M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
-endif
+endif	// PROFILE
+else ifeq ($(CONFIG_TFA_MA35_VER_B),y)
+endif	// VER
+
 else ifeq ($(SUBTARGET),som)
+
+ifeq ($(CONFIG_TFA_MA35_VER_A),y)
 ifneq ($(findstring 256m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16A887C_LFBGA-312_MCP_WinbondDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
-endif
-endif
+endif	// PROFILE
+else ifeq ($(CONFIG_TFA_MA35_VER_B),y)
+ifneq ($(findstring 512m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16AJ87C_LFBGA-312_MCP_WBDDR3L_512M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
+endif	// PROFILE
+endif	// VER
+
+endif	// SUBTARGET
+
 else ifeq ($(BOARD),ma35h0)
+
 ifeq ($(SUBTARGET),hmi)
+
 ifneq ($(findstring 128m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35H04F764C_MCP_WBDDR2_128M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
-endif
-endif
+endif	// PROFILE
+
+endif	// SUBTARGET
+
 else ifeq ($(BOARD),ma35d0)
+
 ifeq ($(SUBTARGET),iot)
 ifneq ($(findstring 128m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D03F764C_MCP_WBDDR2_128M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
 else ifneq ($(findstring 256m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D03F864C_MCP_WBDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
-endif
-endif
-endif
+endif	// PROFILE
+endif	// SUBTARGET
+
+endif	// BOARD
+
 else
 	$(CP) $(TOPDIR)/Nuvoton/ddr/$(CONFIG_TFA_CUSTOM_DDR_FILE) $(PKG_BUILD_DIR)/plat/nuvoton/$(BOARD)/include/custom_ddr.h
-endif
-endef
+endif	// TFA_CUSTOM_DDR_FILE_AUTO
+endef	// define Build/Prepare
 
 define Package/trusted-firmware-a/install
 	touch /tmp/openwrt.boot
