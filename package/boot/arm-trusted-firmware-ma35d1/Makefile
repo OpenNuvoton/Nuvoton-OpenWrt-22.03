@@ -7,10 +7,10 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arm-trusted-firmware-ma35d1
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL=https://github.com/OpenNuvoton/MA35D1_arm-trusted-firmware-v2.3.git
-PKG_SOURCE_DATE:=2025-04-07
-PKG_SOURCE_VERSION:=4f5f421fd618ba7e781cb032995d3e648f66f7e5
-PKG_MIRROR_HASH:=54d0da2d31b4272014ece53c9e3d79bca7ab390d440036c0d52a08d90337f698
+PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_arm-trusted-firmware-v2.3.git
+PKG_SOURCE_DATE:=2026-05-07
+PKG_SOURCE_VERSION:=b2d8dada23f0b31a8f627cf00f580a53c60f0b0f
+PKG_MIRROR_HASH:=6a8af7b2ff99cb1fd9560cd302567dc3022dedf2a2bb0c0de64e5782ecc7af55
 
 PKG_MAINTAINER:=Chih-Chiang Chang <ccchang12@nuvoton.com>
 
@@ -50,7 +50,11 @@ ifeq ($(CONFIG_TFA_PMIC_AUTO),y)
 ifeq ($(SUBTARGET),iot)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0
 else ifeq ($(SUBTARGET),som)
-  TFA_MAKE_FLAGS += MA35D1_PMIC=1
+ifeq ($(CONFIG_TFA_MA35_VER_A),y)
+  TFA_MAKE_FLAGS += MA35D1_PMIC=1 MA35D1_CPU_CORE=128
+else ifeq ($(CONFIG_TFA_MA35_VER_B),y)
+  TFA_MAKE_FLAGS += MA35D1_PMIC=3 MA35D1_CPU_CORE=128
+endif	// VER
 endif
 else ifeq ($(CONFIG_TFA_PMIC_0),y)
   TFA_MAKE_FLAGS += MA35D1_PMIC=0

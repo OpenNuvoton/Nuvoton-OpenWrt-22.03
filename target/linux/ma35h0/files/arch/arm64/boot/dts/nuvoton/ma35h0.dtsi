@@ -92,7 +92,7 @@
 		assigned-clocks = <&clk CAPLL>,
 				<&clk DDRPLL>, <&clk APLL>,
 				<&clk EPLL>, <&clk VPLL>;
-		assigned-clock-rates =<1000000000>,
+		assigned-clock-rates =<650000000>,
 				<266000000>, <200000000>,
 				<500000000>, <102000000>;
 		clock-pll-mode = <0>, <1>, <0>, <0>, <0>;
@@ -223,6 +223,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN0_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN0_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";
@@ -238,6 +243,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN1_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN1_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";

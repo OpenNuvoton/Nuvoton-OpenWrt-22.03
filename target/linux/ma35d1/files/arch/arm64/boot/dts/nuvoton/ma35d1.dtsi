@@ -93,10 +93,10 @@
 		assigned-clocks = <&clk CAPLL>,
 				<&clk DDRPLL>, <&clk APLL>,
 				<&clk EPLL>, <&clk VPLL>;
-		assigned-clock-rates =<1000000000>,
+		assigned-clock-rates =<800000000>,
 				<266000000>, <200000000>,
 				<500000000>, <102000000>;
-		clock-pll-mode = <0>, <1>, <0>, <0>, <0>;
+		clock-pll-mode = <0>, <1>, <0>, <2>, <0>;
 		nuvoton,sys = <&sys>;
 	};
 
@@ -170,7 +170,6 @@
 		interrupts = <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk UART1_GATE>;
 		port-number = <1>;
-		
 		/* PDMA Setting*/
 		dmas = <&pdma2 2>,<&pdma3 3>;
 		dma-names = "tx", "rx";
@@ -179,10 +178,9 @@
 
 		/* wakeup-enable = <cts-wakeup fifo-threshold-wakeup fifo-timeout-wakeup> */
 		/* wakeup-enable = <1 1 0>; */
-		
 		/* set: 1, 4, 8, 14 or 30 bytes */
 		/* only for fifo threshold wakeup */
-		/* fifo-threshold = <14>; */ 
+		/* fifo-threshold = <14>; */
 
 		status = "disabled";
 	};
@@ -364,6 +362,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN0_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN0_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";
@@ -379,6 +382,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN1_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN1_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";
@@ -394,6 +402,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN2_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN2_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";
@@ -409,6 +422,11 @@
 		clocks = <&clk HCLK3>,
 				 <&clk CAN3_GATE>;
 		clock-names = "hclk", "cclk";
+
+		assigned-clocks = <&clk CAN3_DIV>;
+		assigned-clocks-parents = <&clk APLL>;
+		assigned-clock-rates =<50000000>;
+
 		bosch,mram-cfg = <0x0 4 4 32 32 32 8 8>;
 
 		status = "disable";
@@ -507,6 +525,8 @@
 		interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&clk RTC_GATE>;
 		lxt-detect-enable = <0>;
+		wakeup-source;
+		enable-wakeup;
 		status = "disabled";
 	};
 
@@ -543,20 +563,21 @@
 
 
 		/*
-		debounce setting:
-		0 = disable debounce
-		3 = debounce preiod is 8 clocks.
-		4 = debounce preiod is 16 clocks.
-		5 = debounce preiod is 32 clocks.
-		6 = debounce preiod is 64 clocks.
-		7 = debounce preiod is 128 clocks.
-		8 = debounce preiod is 256 clocks.
-		9 = debounce preiod is 512 clocks.
-		10 = debounce preiod is 1024 clocks.
-		11 = debounce preiod is 2048 clocks.
-		12 = debounce preiod is 4096 clocks.
-		13 = debounce preiod is 8192 clocks.
-		*/
+		 * debounce setting:
+		 * 0 = disable debounce
+		 * 3 = debounce period is 8 clocks.
+		 * 4 = debounce period is 16 clocks.
+		 * 5 = debounce period is 32 clocks.
+		 * 6 = debounce period is 64 clocks.
+		 * 7 = debounce period is 128 clocks.
+		 * 8 = debounce period is 256 clocks.
+		 * 9 = debounce period is 512 clocks.
+		 * 10 = debounce period is 1024 clocks.
+		 * 11 = debounce period is 2048 clocks.
+		 * 12 = debounce period is 4096 clocks.
+		 * 13 = debounce period is 8192 clocks.
+		 */
+
 		debounce-period = <1>;
 
 		/* pre-scale is from 1 ~ 256 */
@@ -1700,6 +1721,11 @@
 		clock-names = "eadc_gate";
 		eadc-frequency = <10000000>;
 		eadc-channels = <0 1 2 3 4 5 6 7>;
+		/*use_pdma = <1>;*/ /* enable PDMA */
+		use_pdma = <0>; /* Disable PDMA */
+		dmas = <&pdma2 4>;
+		dma-names = "rx";
+		pdma_reqsel_rx = <146>;
 		status = "disabled";
 	};
 
