@@ -55,12 +55,38 @@ config TFA_CUSTOM_DDR_FILE_AUTO
         default y
         depends on PACKAGE_trusted-firmware-a-ma35d1
 choice
-        prompt "MA35D1 Chip version"
-        depends on TARGET_ma35d1 && PACKAGE_trusted-firmware-a-ma35d1 && TFA_CUSTOM_DDR_FILE_AUTO
-config TFA_MA35_VER_A
-        bool "MA35 series version A SoC"
-config TFA_MA35_VER_B
-        bool "MA35 series version B SoC"
+        prompt "MA35 Chip version"
+        depends on PACKAGE_trusted-firmware-a-ma35d1 && TFA_CUSTOM_DDR_FILE_AUTO
+config TFA_MA35_3F789
+        bool "Part number with 3F[789]"
+        depends on TARGET_ma35d0_iot
+config TFA_MA35_3FHIJ
+        bool "Part number with 3F[HIJ]"
+        depends on TARGET_ma35d0_iot
+config TFA_MA35_4F789
+        bool "Part number with 4F[789]"
+        depends on TARGET_ma35h0_hmi
+config TFA_MA35_4FHIJ
+        bool "Part number with 4F[HIJ]"
+        depends on TARGET_ma35h0_hmi
+config TFA_MA35_5A789
+        bool "Part number with 5A[789]"
+        depends on TARGET_ma35d1_som || TARGET_ma35d1_hmi
+config TFA_MA35_5KHIJ
+        bool "Part number with 5K[HIJ]"
+        depends on TARGET_ma35d05k_iotv1
+config TFA_MA35_6A789
+        bool "Part number with 6A[789]"
+        depends on TARGET_ma35d1_som || TARGET_ma35d1_hmi
+config TFA_MA35_6AHIJ
+        bool "Part number with 6A[HIJ]"
+        depends on TARGET_ma35d1_som || TARGET_ma35d1_hmi
+config TFA_MA35_6F789
+        bool "Part number with 6F[789]"
+        depends on TARGET_ma35d1_iot || TARGET_ma35d1_iotv1
+config TFA_MA35_6FHIJ
+        bool "Part number with 6F[HIJ]"
+        depends on TARGET_ma35d1_iot || TARGET_ma35d1_iotv1
 endchoice
 config TFA_CUSTOM_DDR_FILE
         string "Set Custom DDR header file in Nuvoton/ddr"

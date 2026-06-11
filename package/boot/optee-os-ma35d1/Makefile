@@ -5,7 +5,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=optee-ma35d1
+PKG_NAME:=optee-os-ma35
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
@@ -18,16 +18,18 @@ CMAKE_INSTALL:=1
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/image.mk
 
-define Package/optee-ma35d1
+define Package/optee-os-ma35
   SECTION:=boot
   CATEGORY:=Boot Loaders
-  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35h0)
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35d05k||TARGET_ma35h0)
   TITLE:=OP-TEE OS for MA35 board
   URL:=$(PKG_SOURCE_URL)
   PLATFORM:=ma35
 endef
 
 ifeq ($(BOARD),ma35d1)
+  OPTEE_MAKE_FLAGS += PLATFORM_FLAVOR=MA35D1 all
+else ifeq ($(BOARD),ma35d05k)
   OPTEE_MAKE_FLAGS += PLATFORM_FLAVOR=MA35D1 all
 else ifeq ($(BOARD),ma35h0)
   OPTEE_MAKE_FLAGS += PLATFORM_FLAVOR=MA35H0 all
@@ -54,7 +56,7 @@ define Build/Compile
 		$(OPTEE_MAKE_FLAGS)
 endef
 
-define Package/optee-ma35d1/install
+define Package/optee-os-ma35/install
 	touch /tmp/openwrt.boot
 	sed -i /^OPTEE_/d /tmp/openwrt.boot
 	echo OPTEE_PROFILE=$(PROFILE) >> /tmp/openwrt.boot
@@ -69,4 +71,4 @@ define Package/optee-ma35d1/install
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/out/arm-plat-ma35/export-ta_arm64/ta/*.ta $(1)/lib/optee_armtz/
 endef
 
-$(eval $(call BuildPackage,optee-ma35d1))
+$(eval $(call BuildPackage,optee-os-ma35))

@@ -51,6 +51,8 @@ CONFIG_TARGET_ma35d1=y
 # CONFIG_TARGET_x86 is not set
 CONFIG_TARGET_ma35d1_som=y
 # CONFIG_TARGET_ma35d1_iot is not set
+# CONFIG_TARGET_ma35d1_iotv1 is not set
+# CONFIG_TARGET_ma35d1_hmi is not set
 # CONFIG_TARGET_MULTI_PROFILE is not set
 # CONFIG_TARGET_ma35d1_som_Default is not set
 # CONFIG_TARGET_ma35d1_som_DEVICE_1g-nand is not set
@@ -1702,16 +1704,17 @@ CONFIG_ZABBIX_POSTGRESQL=y
 #
 # Boot Loaders
 #
-CONFIG_PACKAGE_optee-ma35d1=y
+CONFIG_PACKAGE_optee-os-ma35=y
 CONFIG_PACKAGE_trusted-firmware-a-ma35d1=y
 # CONFIG_TFA_LOAD_SCP_BL2 is not set
 CONFIG_TFA_CPU800=y
 # CONFIG_TFA_CPU1G is not set
 CONFIG_TFA_PMIC_AUTO=y
 CONFIG_TFA_CUSTOM_DDR_FILE_AUTO=y
-CONFIG_TFA_MA35_VER_A=y
-# CONFIG_TFA_MA35_VER_B is not set
-CONFIG_PACKAGE_u-boot-generic=y
+# CONFIG_TFA_MA35_5A789 is not set
+CONFIG_TFA_MA35_6A789=y
+# CONFIG_TFA_MA35_6AHIJ is not set
+CONFIG_PACKAGE_u-boot-ma35d1=y
 # end of Boot Loaders
 
 #

@@ -23,7 +23,7 @@ include /tmp/openwrt.boot
 define Package/optee-examples
   SECTION:=nuvoton
   CATEGORY:=Nuvoton
-  DEPENDS:= +optee-ma35d1 +optee-client
+  DEPENDS:= +optee-os-ma35 +optee-client
   TITLE:=OP-TEE Sample Applications
   URL:=$(PKG_SOURCE_URL)
 endef

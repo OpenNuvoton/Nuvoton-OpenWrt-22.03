@@ -12,7 +12,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_u-boot-v2020.07.git
 PKG_SOURCE_DATE:=2026-05-15
 PKG_SOURCE_VERSION:=27273d62c8ba363eddb0dc590e9f30d692cc1243
-PKG_MIRROR_HASH:=03cf09920b09e15fccd3653506c1daa5d41c482214bf06898ae69d8da07ca08b
+PKG_MIRROR_HASH:=f78c4aa91870af7f1bd5ba94d5660e2ff7822e478ad78975f232073acdea379e
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
@@ -21,10 +21,10 @@ include $(INCLUDE_DIR)/image.mk
 define U-Boot/Default
   BUILD_TARGET:=$(BOARD)
   UBOOT_IMAGE:=u-boot.bin
-  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35h0)
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35d05k||TARGET_ma35h0)
 endef
 
-define U-Boot/generic
+define U-Boot/ma35d1
   NAME:=MA35 board
 ifneq ($(findstring spinand,$(PROFILE)),)
   UBOOT_CONFIG:=$(BOARD)_spinand
@@ -37,7 +37,7 @@ else
 endif
 endef
 
-UBOOT_TARGETS:=generic
+UBOOT_TARGETS:=ma35d1
 
 $(info PROFILE = $(PROFILE))
 

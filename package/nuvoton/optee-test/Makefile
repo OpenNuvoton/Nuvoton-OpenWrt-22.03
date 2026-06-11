@@ -23,7 +23,7 @@ include /tmp/openwrt.boot
 define Package/optee-test
   SECTION:=nuvoton
   CATEGORY:=Nuvoton
-  DEPENDS:= +optee-ma35d1 +optee-client +libopenssl
+  DEPENDS:= +optee-os-ma35 +optee-client +libopenssl
   TITLE:=OP-TEE Test suite
   URL:=$(PKG_SOURCE_URL)
 endef

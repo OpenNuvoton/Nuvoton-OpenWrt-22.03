@@ -17,7 +17,7 @@ is_rtp_m4()
 
 is_optee_image()
 {
-	if grep -Eq "^CONFIG_PACKAGE_optee-ma35d1=y$" ${CONFIG_FILE}; then
+	if grep -Eq "^CONFIG_PACKAGE_optee-os-ma35=y$" ${CONFIG_FILE}; then
 		echo "yes"
 	else
 		echo "no"
