@@ -134,4 +134,40 @@ define Device/iot-sdcard
 endef
 endif
 
+ifeq ($(SUBTARGET),iotv1)
+define Device/iotv1-nand
+  IMAGE_SIZE := 32768k
+  PAGESIZE := 2048
+  BLOCKSIZE := 128k
+  FILESYSTEMS := squashfs
+  IMAGES := firmware.bin sysupgrade.bin
+  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+endef
+
+define Device/iotv1-sdcard
+  FILESYSTEMS := ext4
+  IMAGES := sysupgrade.gz
+  IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
+endef
+endif
+
+ifeq ($(SUBTARGET),hmi)
+define Device/hmi-nand
+  IMAGE_SIZE := 32768k
+  PAGESIZE := 2048
+  BLOCKSIZE := 128k
+  FILESYSTEMS := squashfs
+  IMAGES := firmware.bin sysupgrade.bin
+  IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+endef
+
+define Device/hmi-sdcard
+  FILESYSTEMS := ext4
+  IMAGES := sysupgrade.gz
+  IMAGE/sysupgrade.gz := sdcard-img | append-metadata | gzip
+endef
+endif
+
 $(eval $(call BuildImage))
