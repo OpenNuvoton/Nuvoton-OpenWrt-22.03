@@ -10,7 +10,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/OpenNuvoton/MA35D1_arm-trusted-firmware-v2.3.git
 PKG_SOURCE_DATE:=2026-05-07
 PKG_SOURCE_VERSION:=b2d8dada23f0b31a8f627cf00f580a53c60f0b0f
-PKG_MIRROR_HASH:=6a8af7b2ff99cb1fd9560cd302567dc3022dedf2a2bb0c0de64e5782ecc7af55
+PKG_MIRROR_HASH:=a6f4b314733a690226be2ceb36d716b86ae2306c4838bd2506d44ea4d052a574
 
 PKG_MAINTAINER:=Chih-Chiang Chang <ccchang12@nuvoton.com>
 
