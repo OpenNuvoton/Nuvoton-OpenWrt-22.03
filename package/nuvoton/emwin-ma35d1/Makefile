@@ -16,7 +16,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/emwin-ma35d1
   SECTION:=nuvoton
   CATEGORY:=Nuvoton
-  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35h0) +tslib
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35d05k||TARGET_ma35h0) +tslib
   TITLE:=emWin Sample Applications
 endef
 

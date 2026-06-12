@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/image.mk
 define Package/optee-client
   SECTION:=nuvoton
   CATEGORY:=Nuvoton
-  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0) +libuuid
+  DEPENDS:=@(TARGET_ma35d1||TARGET_ma35d0||TARGET_ma35d05k) +libuuid
   TITLE:=Normal World Client side of the TEE
   URL:=$(PKG_SOURCE_URL)
 endef
