@@ -69,9 +69,6 @@ config TFA_MA35_4F789
 config TFA_MA35_4FHIJ
         bool "Part number with 4F[HIJ]"
         depends on TARGET_ma35h0_hmi
-config TFA_MA35_5A789
-        bool "Part number with 5A[789]"
-        depends on TARGET_ma35d1_som || TARGET_ma35d1_hmi
 config TFA_MA35_5KHIJ
         bool "Part number with 5K[HIJ]"
         depends on TARGET_ma35d05k_iotv1

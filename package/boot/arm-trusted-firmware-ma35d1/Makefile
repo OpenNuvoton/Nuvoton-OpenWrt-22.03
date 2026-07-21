@@ -199,15 +199,10 @@ endif	# 6F789
 
 else ifneq ($(filter som hmi,$(SUBTARGET)),)
 
-ifeq ($(CONFIG_TFA_MA35_5A789),y)
-ifneq ($(findstring 512m,$(PROFILE)),)
-	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D15A087C_NonMCP_WBDDR3L_512M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
-endif	# PROFILE
-else ifeq ($(CONFIG_TFA_MA35_6A789),y)
+ifeq ($(CONFIG_TFA_MA35_6A789),y)
 ifneq ($(findstring 256m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16A887C_LFBGA-312_MCP_WinbondDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
 else ifneq ($(findstring 512m,$(PROFILE)),)
-	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D16A087C_NonMCP_WBDDR3L_512M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
 endif	# PROFILE
 else ifeq ($(CONFIG_TFA_MA35_6AHIJ),y)
 ifneq ($(findstring 256m,$(PROFILE)),)
@@ -243,6 +238,7 @@ endif	# PROFILE
 else ifeq ($(CONFIG_TFA_MA35_3FHIJ),y)
 ifneq ($(findstring 128m,$(PROFILE)),)
 else ifneq ($(findstring 256m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D03FI64C_MCP_WBDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
 endif	# PROFILE
 endif	# 3F789
 
