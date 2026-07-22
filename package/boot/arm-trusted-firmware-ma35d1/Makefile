@@ -219,7 +219,9 @@ else ifeq ($(BOARD),ma35d05k)
 ifeq ($(SUBTARGET),iotv1)
 
 ifeq ($(CONFIG_TFA_MA35_5KHIJ),y)
-ifneq ($(findstring 256m,$(PROFILE)),)
+ifneq ($(findstring 128m,$(PROFILE)),)
+	$(CP) $(TOPDIR)/Nuvoton/ddr/MMA35D05KH67C_MCP_WDDR3L_128M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
+else ifneq ($(findstring 256m,$(PROFILE)),)
 	$(CP) $(TOPDIR)/Nuvoton/ddr/MA35D05KI67C_MCP_WBDDR3L_256M_1PCS.h $(PKG_BUILD_DIR)/plat/nuvoton/$(TFA_PLAT)/include/custom_ddr.h
 endif	# PROFILE
 endif	# 5KHIJ
