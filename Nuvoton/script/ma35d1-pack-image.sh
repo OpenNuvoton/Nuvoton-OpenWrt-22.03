@@ -252,13 +252,34 @@ IMAGE_CMD_sdcard() {
 
 	dd if=${KDIR}/${DEVICE_NAME}.pt of=${STAGING_DIR_IMAGE}/MBR.sdcard.bin conv=notrunc,fsync seek=0 count=1 bs=512
 	ln -sf ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-uImage Image
-	ln -sf ${KDIR}/root.ext4 rootfs.ext4
 
 	IMAGE_CMD_init sdcard
 	IMAGE_CMD_header sdcard
-	cat ${NUWRITER_DIR}/pack-sdcard.json | \
-		jq 'setpath(["image",8,"offset"];"'$((${EXT4_START}*1024))'")' \
-		> ${STAGING_DIR_IMAGE}/pack-sdcard.json
+
+	if [ -n "${CONFIG_TARGET_SDCARD_DATA_PARTSIZE}" ] && [ "${CONFIG_TARGET_SDCARD_DATA_PARTSIZE}" -gt 0 ]; then
+		# squashfs read-only root (p3) + ext4 rootfs_data overlay (p4)
+		ln -sf ${KDIR}/root.squashfs rootfs.squashfs
+		ln -sf ${KDIR}/${DEVICE_NAME}-rootfs_data.ext4 rootfs_data.ext4
+		# Use the real p4 offset recorded by gen_ma35d1_sdcard_img.sh (ptgen
+		# authoritative); fall back to the computed value if it is missing.
+		if [ -f ${KDIR}/${DEVICE_NAME}.rootfs_data_offset ]; then
+			DATA_OFFSET_BYTES=$(cat ${KDIR}/${DEVICE_NAME}.rootfs_data_offset)
+		else
+			DATA_OFFSET_BYTES=$((${EXT4_END}*1024))
+		fi
+		cat ${NUWRITER_DIR}/pack-sdcard.json | \
+			jq 'setpath(["image",8,"file"];"rootfs.squashfs")' | \
+			jq 'setpath(["image",8,"offset"];"'$((${EXT4_START}*1024))'")' | \
+			jq '.image += [{"offset":"'${DATA_OFFSET_BYTES}'","file":"rootfs_data.ext4","type":0}]' \
+			> ${STAGING_DIR_IMAGE}/pack-sdcard.json
+	else
+		# legacy writable ext4 root (p3), no overlay
+		ln -sf ${KDIR}/root.ext4 rootfs.ext4
+		cat ${NUWRITER_DIR}/pack-sdcard.json | \
+			jq 'setpath(["image",8,"offset"];"'$((${EXT4_START}*1024))'")' \
+			> ${STAGING_DIR_IMAGE}/pack-sdcard.json
+	fi
+
 	IMAGE_CMD_pack sdcard
 }
 

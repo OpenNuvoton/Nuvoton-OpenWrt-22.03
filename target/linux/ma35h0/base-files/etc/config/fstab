@@ -1,0 +1,23 @@
+config global
+	option	anon_swap	'0'
+	option	anon_mount	'0'
+	option	auto_swap	'1'
+	option	auto_mount	'1'
+	# delay_root MUST stay 0: the SD card is the boot device and is always
+	# present by the time extroot runs, so no retry is ever needed. With 0,
+	# block's extroot skips the sleep entirely - so the ext4-only layout
+	# (CONFIG_TARGET_SDCARD_DATA_PARTSIZE=0, no rootfs_data partition) incurs
+	# zero boot delay instead of waiting for a device that will never appear.
+	option	delay_root	'0'
+	option	check_fs	'0'
+
+# SDCARD squashfs + separate ext4 "rootfs_data" overlay partition.
+# block-mount's extroot mounts the labelled partition at /overlay during
+# preinit. Harmless when the partition is absent (ext4-only layout, or
+# NAND/SPINAND which ship no /sbin/block): extroot finds nothing and, with
+# delay_root=0, returns immediately with no wait.
+config mount
+	option	target	'/overlay'
+	option	label	'rootfs_data'
+	option	fstype	'ext4'
+	option	enabled	'1'

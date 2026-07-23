@@ -144,6 +144,7 @@ CONFIG_TARGET_IMAGES_GZIP=y
 #
 # Image Options
 #
+CONFIG_TARGET_SDCARD_DATA_PARTSIZE=100
 # CONFIG_MA35D05K_SECURE_BOOT is not set
 CONFIG_TARGET_KERNEL_PARTSIZE=16
 CONFIG_TARGET_ROOTFS_PARTSIZE=104
@@ -465,7 +466,7 @@ CONFIG_FEED_telephony=y
 # CONFIG_PACKAGE_attendedsysupgrade-common is not set
 # CONFIG_PACKAGE_auc is not set
 CONFIG_PACKAGE_base-files=y
-# CONFIG_PACKAGE_block-mount is not set
+CONFIG_PACKAGE_block-mount=y
 # CONFIG_PACKAGE_blockd is not set
 # CONFIG_PACKAGE_bridge is not set
 CONFIG_PACKAGE_busybox=y

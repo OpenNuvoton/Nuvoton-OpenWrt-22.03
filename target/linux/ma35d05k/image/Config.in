@@ -20,4 +20,17 @@ config MA35D05K_ECDSA_KEY
 	help
           ECDSA Key
 endif
+
+config TARGET_SDCARD_DATA_PARTSIZE
+	int "SD card rootfs_data (overlay) partition size (in MiB)"
+	default 100
+	help
+	  Size of the 4th SD-card partition ("rootfs_data") used as the
+	  writable /overlay on top of a read-only squashfs root.
+
+	  > 0 : build a read-only squashfs root plus this ext4 overlay, so
+	        sysupgrade/OTA can preserve settings (mirrors squashfs+ubifs
+	        NAND).
+	  = 0 : build a single writable ext4 root and no overlay partition;
+	        settings are preserved via the sysupgrade config backup.
 endif
