@@ -27,6 +27,23 @@ define Build/copy-dtb
 	fi
 endef
 
+# Append the device tree blob into the sysupgrade tar so OTA can also refresh
+# the raw "dtb" partition that u-boot reads (see platform_do_upgrade_dtb). The
+# blob is stored under sysupgrade-<device>/dtb, matching the MA35/NUC980 layout.
+# Both NUC970 subtargets are NAND, so this tar path is all that is needed (no
+# SPI-NOR trailing-blob handling). The hmi board's dtb is named n9h30-*.
+define Build/append-dtb-tar
+	mkdir -p $@.dtbdir/sysupgrade-$(DEVICE_NAME)
+	if [ "$(SUBTARGET)" == "hmi" ]; then \
+		$(CP) $(KDIR)/image/n9h30-$(SUBTARGET).dtb $@.dtbdir/sysupgrade-$(DEVICE_NAME)/dtb; \
+	else \
+		$(CP) $(KDIR)/image/$(BOARD)-$(SUBTARGET).dtb $@.dtbdir/sysupgrade-$(DEVICE_NAME)/dtb; \
+	fi
+	tar -C $@.dtbdir --owner=0 --group=0 --numeric-owner \
+		-rf $@ sysupgrade-$(DEVICE_NAME)/dtb
+	rm -rf $@.dtbdir
+endef
+
 define Image/Build
 	$(info "Image/Build" $(1))
 	$(call Image/Build/$(1),$(1))
@@ -85,7 +102,7 @@ define Device/nand
   PAGESIZE := 2048
   BLOCKSIZE := 128k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-dtb-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += nand
@@ -98,7 +115,7 @@ define Device/nand
   PAGESIZE := 2048
   BLOCKSIZE := 128k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-dtb-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += nand

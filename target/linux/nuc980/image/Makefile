@@ -22,6 +22,38 @@ define Build/copy-dtb
 	$(CP) $(TOPDIR)/Nuvoton/uboot_env/$(BOARD)-$(DEVICE_NAME)-u-boot-env.txt $(BIN_DIR)/openwrt-$(BOARD)-$(SUBTARGET)-u-boot-env.txt
 endef
 
+# Append the device tree blob into the sysupgrade tar so OTA can also refresh
+# the raw DTB region that u-boot reads (see platform_do_upgrade_dtb). The blob
+# is stored under sysupgrade-<device>/dtb, matching the MA35 layout.
+define Build/append-dtb-tar
+	mkdir -p $@.dtbdir/sysupgrade-$(DEVICE_NAME)
+	$(CP) $(KDIR)/image/$(BOARD)-$(SUBTARGET).dtb \
+		$@.dtbdir/sysupgrade-$(DEVICE_NAME)/dtb
+	tar -C $@.dtbdir --owner=0 --group=0 --numeric-owner \
+		-rf $@ sysupgrade-$(DEVICE_NAME)/dtb
+	rm -rf $@.dtbdir
+endef
+
+# CHILI (SPI-NOR) writes a RAW NOR firmware image (byte 0 = kernel uImage) to
+# the firmware partition. Carry the device tree as a trailing, 64 KiB-aligned
+# magic blob so the new system can refresh the separate "dtb" partition during
+# sysupgrade. The blob records the real firmware length so the new system
+# flashes only kernel+rootfs (never the blob), keeping the rootfs_data/overlay
+# region clean:
+#   <pad to 64K> 'NUCDTBV1' <8 hex firmware length> <8 hex dtb length> <dtb>
+# A pre-OTA-DTB ("old") system writes the whole file raw and still boots
+# (byte 0 = kernel); the blob it leaves in rootfs_data is wiped on the next
+# boot by the nuc980 preinit hook.
+define Build/append-nor-dtb
+	dtb="$(KDIR)/image/$(BOARD)-$(SUBTARGET).dtb"; \
+	fwlen=$$(stat -c%s "$@"); \
+	dtblen=$$(stat -c%s "$$dtb"); \
+	pad=$$(( (65536 - fwlen % 65536) % 65536 )); \
+	[ "$$pad" -eq 0 ] || dd if=/dev/zero bs=$$pad count=1 >> $@ 2>/dev/null; \
+	printf 'NUCDTBV1%08x%08x' "$$fwlen" "$$dtblen" >> $@; \
+	cat "$$dtb" >> $@
+endef
+
 define Image/Build
 	$(info "Image/Build" $(1))
 	$(call Image/Build/$(1),$(1))
@@ -80,7 +112,7 @@ define Device/nand
   PAGESIZE := 2048
   BLOCKSIZE := 128k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-dtb-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += nand
@@ -91,7 +123,7 @@ define Device/spinor
   PAGESIZE := 256
   BLOCKSIZE := 64k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | append-metadata | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | check-size $$$$(IMAGE_SIZE) | append-nor-dtb | append-metadata
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += spinor
@@ -103,7 +135,7 @@ define Device/spinand
   PAGESIZE := 2048
   BLOCKSIZE := 128k
   IMAGE/firmware.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
-  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-ubi | sysupgrade-tar | append-dtb-tar | append-metadata | check-size $$$$(IMAGE_SIZE)
   $(Device/select-dtb)
 endef
 TARGET_DEVICES += spinand
