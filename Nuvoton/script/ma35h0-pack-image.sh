@@ -137,19 +137,13 @@ IMAGE_CMD_init() {
 		rm ${BIN_DIR}/${IMAGE_BASENAME}-otp-key-enc.json
 	fi
 
-	# rename the sysupgrade image
+	# rename the sysupgrade image; the filesystem and the suffix depend on the
+	# profile (sdcard: ext4|squashfs + .gz, nand/spinand: squashfs + .bin)
 	if [ $IS_SECURE == "yes" ]; then
-		if [ $1 == "sdcard" ]; then
-			if [ -f ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-ext4-sysupgrade.gz ]; then
-				mv ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-ext4-sysupgrade.gz \
-				   ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-ext4-sysupgrade-enc.gz
-			fi
-		else
-			if [ -f ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-sysupgrade.bin ]; then
-				mv ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-sysupgrade.bin \
-				   ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-squashfs-sysupgrade-enc.bin
-			fi
-		fi
+		for img in ${BIN_DIR}/${IMAGE_BASENAME}-${SUBTARGET}-${DEVICE_NAME}-*-sysupgrade.*; do
+			[ -f "$img" ] || continue
+			mv "$img" "${img%-sysupgrade*}-sysupgrade-enc${img##*-sysupgrade}"
+		done
 	fi
 }
 
